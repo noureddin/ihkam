@@ -178,15 +178,23 @@ function init_inputs () {
 }
 
 const hide_selectors = function () {
+  el_qaris.disabled = true
+  el_teacher_input.disabled = true
   el_selectors.hidden = true
-  el_header.hidden = false
   el_ok.hidden = true
+  //
+  el_header.hidden = false
 }
 
 const show_selectors = function () {
+  validate_aaya_sura_input({})  // filters inputs & disables/enables ok button
+  //
+  el_qaris.disabled = false
+  el_teacher_input.disabled = false
   el_selectors.hidden = false
-  el_header.hidden = true
   el_ok.hidden = false
+  //
+  el_header.hidden = true
 }
 
 function start_reciting () {
@@ -257,7 +265,7 @@ function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
 }
 
 el_ok.onclick = start_reciting
-el_repeat.onclick = () => { clear_board(); start_reciting() }
+el_repeat.onclick = () => { start_reciting() }
 
 el_new.onclick = () => {
   show_selectors()

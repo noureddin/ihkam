@@ -8,6 +8,7 @@ function decode_contact () {
   // if you know a better way, please let me know!
 }
 
+clear_board()
 init_inputs()
 validate_aaya_sura_input({})
 change_qari()

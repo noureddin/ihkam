@@ -15,9 +15,9 @@
   line-height: 3;
 }
 center {
-  width: 100vw;
-  max-width: 50em;
+  width: min(50em, 95vw);
   margin: 0 auto;
+  box-sizing: border-box;
 }
 #p > .w {
   display: inline;
@@ -36,6 +36,9 @@ center {
   background: #e0e0e0;
   cursor: pointer;
 }
+
+.option { margin-bottom: 0.5em }
+#ok { margin: 0.75em 0 }
 
 /*
 */
@@ -93,6 +96,9 @@ select, input, button { filter: invert(1) }
 #about a:active { color: #99f }
 }
 
+[disabled] ~ label, label:has(~ [disabled]) { color: gray; cursor: not-allowed }
+input[disabled], select[disabled] { cursor: not-allowed }
+
 /* largely copied from Recite */
 
 #aaya_bgn, #aaya_end { font-family: KacstOne; }
@@ -126,6 +132,7 @@ button:disabled { cursor: not-allowed }
 #qaris {
   font-family: serif;
   margin-top: 1em;
+  width: calc(100% - 7em);
 }
 
 #preloader {

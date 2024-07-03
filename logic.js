@@ -11,15 +11,19 @@ const unmark = (w) => w
 const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC]))/)
 
 function clear_board () {
-  p.innerHTML = ''
-  x.innerHTML = ''
-  el_teacher_input.disabled = false
+  p.hidden = true
+  x.hidden = true
+  el_endmsg.hidden = true
 }
 
 function recite (ayat, title='') {
 
   const teacher = el_teacher_input.checked
-  el_teacher_input.disabled = true
+
+  el_endmsg.hidden = true
+  x.innerHTML = ''
+  p.hidden = false
+  x.hidden = false
 
   p.style.color = 'gray'
   p.style.textAlign = 'center'
@@ -50,8 +54,6 @@ function recite (ayat, title='') {
     show_selectors()
     setTimeout(() => el_ok.focus(), 500)
     p.classList.add('done')
-    //
-    el_teacher_input.disabled = false
   }
 
   const real_drop = (idx) => {

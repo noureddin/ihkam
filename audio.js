@@ -49,7 +49,7 @@ const audio = (function () {
   }
 
   function update_qari (qari) {
-    if (qari) { base_url = `https://www.everyayah.com/data/${qari}/` }
+    base_url = qari ? `https://www.everyayah.com/data/${qari}/` : undefined
     fetch()
   }
 
