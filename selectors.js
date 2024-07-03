@@ -196,6 +196,7 @@ function start_reciting () {
   const st = sura_offset[SA] + AA
   const en = sura_offset[SZ] + AZ
   const title = make_title(+SA+1, +AA, +SZ+1, +AZ)[0].replace(/تسميع /, 'رتب عبارات ')
+  init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value)
   hide_selectors()
   load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), title))
 }

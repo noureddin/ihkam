@@ -9,6 +9,7 @@ function decode_contact () {
 }
 
 init_inputs()
+validate_aaya_sura_input({})
 decode_contact()
 
 // todo:

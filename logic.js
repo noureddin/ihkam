@@ -55,6 +55,7 @@ function recite (ayat, title='') {
     if (c === 0) { clean_placeholder() }
     const w = Qid('w'+idx)
     w.innerHTML = w.dataset.word
+    if (w.dataset.word.includes('\u06dd')) { audio.next(); audio.play() }  // if end of ayah
     w.draggable = false
     p.appendChild(w)
     if (c === final_count - 1) { done() }
@@ -84,6 +85,7 @@ function recite (ayat, title='') {
     drop(Qid('w'+ev.dataTransfer.getData('text/plain')))
   }
 
+  audio.set_index(-1) //teacher ? 0 : -1)
   shuffle(words.map((e,i) => mkword(e,i))).forEach(e => x.appendChild(e))
 
 }

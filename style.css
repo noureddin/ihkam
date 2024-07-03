@@ -123,4 +123,28 @@ button {
 button:disabled { cursor: not-allowed }
 #header button { margin: 0 1em }
 
+#qaris {
+  font-family: serif;
+  margin-top: 1em;
+}
+
+#preloader {
+  display: none;
+}
+
+#player {
+  display: block;
+  /* centered with https://stackoverflow.com/a/2006008 */
+  margin-left: -5rem; /* negative half of width */
+  width: 10em;
+  left: 50vw;
+  /* sticky at top */
+  position: fixed;
+  top: 0;
+  /* hidden if no qari is selected */
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 30;  /* higher than the help toggle label */
+}
 
