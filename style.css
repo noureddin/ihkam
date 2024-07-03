@@ -43,21 +43,20 @@ center {
 /*
 */
 
+#body { min-height: calc(100vh - 4em) }  /* make #about stick to the footer if short page */
+
 #about {
   font-family: serif;
   font-size: 60%;
-  padding: 1em 0 0 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  width: 100vw;
-  text-align: center;
   margin: 0;
+  margin-top: 2em;
   padding: 0 1em 0.5em 1em;
   box-sizing: border-box;
   color: #888;
   border-top: 1px solid gray;
 }
+
+#xyz { font-family: monospace }
 
 a { text-decoration: none }
 a[href]:hover,
