@@ -12,8 +12,8 @@ init_inputs()
 validate_aaya_sura_input({})
 change_qari()
 decode_contact()
+versligilumi()
 
 // todo:
-// - identical phrases
 // - tajweed
 // - break long phrases! (postponed)
