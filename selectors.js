@@ -262,6 +262,5 @@ el_repeat.onclick = () => { clear_board(); start_reciting() }
 el_new.onclick = () => {
   show_selectors()
   clear_board()
-  init_inputs()
 }
 
