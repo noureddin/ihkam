@@ -13,9 +13,13 @@ const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC]))/)
 function clear_board () {
   p.innerHTML = ''
   x.innerHTML = ''
+  el_teacher_input.disabled = false
 }
 
 function recite (ayat, title='') {
+
+  const teacher = el_teacher_input.checked
+  el_teacher_input.disabled = true
 
   p.style.color = 'gray'
   p.style.textAlign = 'center'
@@ -46,6 +50,8 @@ function recite (ayat, title='') {
     show_selectors()
     setTimeout(() => el_ok.focus(), 500)
     p.classList.add('done')
+    //
+    el_teacher_input.disabled = false
   }
 
   const drop = (el) => {
@@ -55,7 +61,7 @@ function recite (ayat, title='') {
     if (c === 0) { clean_placeholder() }
     const w = Qid('w'+idx)
     w.innerHTML = w.dataset.word
-    if (w.dataset.word.includes('\u06dd')) { audio.next(); audio.play() }  // if end of ayah
+    if (w.dataset.word.match(/\u06dd|\ufdfd/)) { audio.next(); audio.play() }  // if basmala or end of ayah
     w.draggable = false
     p.appendChild(w)
     if (c === final_count - 1) { done() }
@@ -85,7 +91,8 @@ function recite (ayat, title='') {
     drop(Qid('w'+ev.dataTransfer.getData('text/plain')))
   }
 
-  audio.set_index(-1) //teacher ? 0 : -1)
+  audio.set_index(teacher ? 0 : -1)
+  if (teacher) { audio.play(0) }
   shuffle(words.map((e,i) => mkword(e,i))).forEach(e => x.appendChild(e))
 
 }

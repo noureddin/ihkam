@@ -5,6 +5,8 @@
 const el_qaris = Qid("qaris")
 const el_player = Qid("player")
 const el_preloader = Qid("preloader")
+const el_teacher_input = Qid("teacher_input")
+const el_teacher_option = Qid("teacher_option")
 
 const hide_el = (el) => { el.style.visibility = 'hidden';  el.style.opacity =   '0%' }
 const show_el = (el) => { el.style.visibility = 'visible'; el.style.opacity = '100%' }
@@ -87,6 +89,7 @@ const audio = (function () {
 
 function change_qari () {
   audio.update_qari(el_qaris.value)
+  el_teacher_option.hidden = el_qaris.value === ''
 }
 
 function init_audio (SA, AA, SZ, AZ, qari, qariurl) {
