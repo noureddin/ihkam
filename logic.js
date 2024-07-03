@@ -62,6 +62,7 @@ function recite (ayat, title='') {
     w.innerHTML = w.dataset.word
     if (w.dataset.word.match(/\u06dd|\ufdfd/)) { audio.next(); audio.play() }  // if basmala or end of ayah
     w.draggable = false
+    w.classList.remove('hint')
     p.appendChild(w)
     if (idx === final_count - 1) { done() }
   }
@@ -83,6 +84,9 @@ function recite (ayat, title='') {
     }
     else {
       ++mistakes[c]
+      if (mistakes[c] > 5) {  // 5+ mistakes are the same color at the end
+        Qid('w'+c).classList.add('hint')
+      }
     }
   }
 

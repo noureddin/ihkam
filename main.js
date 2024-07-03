@@ -14,7 +14,3 @@ validate_aaya_sura_input({})
 change_qari()
 decode_contact()
 versligilumi()
-
-// todo:
-// - tajweed
-// - break long phrases! (postponed)
