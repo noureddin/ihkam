@@ -14,7 +14,6 @@ change_qari()
 decode_contact()
 
 // todo:
-// - favicon
 // - identical phrases
 // - tajweed
 // - break long phrases! (postponed)
