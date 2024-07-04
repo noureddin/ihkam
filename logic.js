@@ -8,6 +8,7 @@ const unmark = (w) => w
   .replace(/\u06de\xa0/, '')
   .replace(/\xa0\u06dd[٠-٩]+(?:\xa0\u06e9)?/, '')
   .replace(/[\u06D6-\u06DC] /, ' ')
+  .replace(/\u0305/g, '')  // overline
 
 const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC] ))/)
 
