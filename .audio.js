@@ -92,6 +92,8 @@ function change_qari () {
   el_teacher_option.hidden = el_qaris.value === ''
 }
 
+el_qaris.oninput = change_qari
+
 function init_audio (SA, AA, SZ, AZ, qari, qariurl) {
   audio.init(qari, qariurl)
   audio.fill(make_audio_list(SA-1, AA, SZ-1, AZ))
