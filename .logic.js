@@ -65,7 +65,7 @@ function recite (ayat, title='') {
     if (w.dataset.word.match(/\u06dd|\ufdfd/)) { audio.next(); audio.play() }  // if basmala or end of ayah
     w.draggable = false
     w.classList.remove('hint')
-    p.appendChild(w)
+    p.append('\u200b', w)  // zero width space, to allow a phrase to start on the next line, without additional spacing
     if (idx === final_count - 1) { done() } else { next_subset() }
   }
 
