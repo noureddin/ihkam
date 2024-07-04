@@ -34,9 +34,25 @@ local $_ = slurp_stdin;
 
 ## PROCESS & MINIFY
 
+my $title = 'إحكام - اختبر حفظك للقرآن الكريم بترتيب أجزاء الآيات';
+my $desc = 'تطبيق وب مجاني لمراجعة حفظ القرآن الكريم بطريقة سهلة مثل ألغاز تركيب الصور، للحاسوب والمحمول.';
+my $url = 'https://www.noureddin.dev/ihkam';
+
 s{<<meta>>}{
-<title>إحكام - اختبر حفظك للقرآن الكريم بترتيب أجزاء الآيات</title>
-<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16.png">
+  <title>$title</title>
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="$title">
+  <meta property="og:image" content="$url/cover.png">
+  <meta property="og:image:width" content="1120"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:description" content="$desc">
+  <meta name="description" content="$desc">
+  <link rel="canonical" href="$url/">
+  <meta property="og:url" content="$url/">
+  <link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16.png">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="res/favicon.svg">
 }sg;
 
 s{<<qaris>>}{

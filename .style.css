@@ -54,14 +54,16 @@ center {
 /*
 */
 
-#body { min-height: calc(100vh - 4em) }  /* make #about stick to the footer if short page */
+#body { min-height: calc(100vh - 5em) }  /* make #about stick to the footer if short page */
 
-#about {
+#about, #about * {
   font-family: serif;
+}
+#about {
   font-size: 60%;
   margin: 0;
   margin-top: 2em;
-  padding: 0 1em 0.5em 1em;
+  padding: 0.5em 1em 0.5em 1em;
   box-sizing: border-box;
   color: #888;
   border-top: 1px solid gray;
