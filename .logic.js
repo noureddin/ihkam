@@ -82,6 +82,9 @@ function recite (ayat, title='') {
       a.id += 'x'
       b.id = 'w'+c
       a.id = 'w'+idx
+      const other = a.dataset.word
+      a.dataset.word = b.dataset.word
+      b.dataset.word = other
       real_drop(c)
     }
     else {
