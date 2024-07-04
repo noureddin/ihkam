@@ -65,7 +65,7 @@ function recite (ayat, title='') {
     w.draggable = false
     w.classList.remove('hint')
     p.appendChild(w)
-    if (idx === final_count - 1) { done() }
+    if (idx === final_count - 1) { done() } else { next_subset() }
   }
 
   const drop = (el) => {
@@ -119,6 +119,40 @@ function recite (ayat, title='') {
     return el
   }
 
+
+  const cards = words.map((e,i) => mkword(e,i))
+  allwords.clear()
+
+  if (cards.length <= 30) {
+    if (cards.length > 25) {
+      // if 26 to 30 cards, put the first half (13 to 15 cards) first, then the second half
+      shuffle(cards.splice(0,Math.trunc(cards.length/2))).forEach(e => x.appendChild(e))
+      shuffle(cards).forEach(e => x.appendChild(e))
+    }
+    else {
+      shuffle(cards).forEach(e => x.appendChild(e))
+    }
+    var next_subset = () => {}
+  }
+  else {
+    shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
+    shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
+    const inf = (() => {
+      const el = document.createElement('div')
+      el.innerHTML = '\u221e' /* infinity */
+      el.id = 'inf'
+      el.title = 'ستظهر عبارات أخرى عندما ترتب بعض هذه العبارات.'
+      return el
+    })()
+    x.appendChild(inf)
+    var next_subset = () => {
+      if (cards.length && x.children.length <= 15+1) {  /* +1 for #inf */
+        shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
+        cards.length ? x.appendChild(inf) /* replace */ : x.removeChild(inf)
+      }
+    }
+  }
+
   p.ondragover = (ev) => {
     ev.preventDefault()
     ev.dataTransfer.dropEffect = 'move'
@@ -130,7 +164,5 @@ function recite (ayat, title='') {
 
   audio.set_index(teacher ? 0 : -1)
   if (teacher) { audio.play(0) }
-  shuffle(words.map((e,i) => mkword(e,i))).forEach(e => x.appendChild(e))
-  allwords.clear()
 
 }
