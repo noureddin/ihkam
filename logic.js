@@ -5,10 +5,11 @@ const x = Qid('x')
 const el_endmsg = Qid('endmsg')
 
 const unmark = (w) => w
-  .replace(/\xa0\u06dd[٠-٩]+/, '')
-  .replace(/[\u06D6-\u06DC]/, '')
+  .replace(/\u06de\xa0/, '')
+  .replace(/\xa0\u06dd[٠-٩]+(?:\xa0\u06e9)?/, '')
+  .replace(/[\u06D6-\u06DC] /, ' ')
 
-const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC]))/)
+const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC] ))/)
 
 function clear_board () {
   p.hidden = true
@@ -84,7 +85,7 @@ function recite (ayat, title='') {
     }
     else {
       ++mistakes[c]
-      if (mistakes[c] > 5) {  // 5+ mistakes are the same color at the end
+      if (mistakes[c] > 5) {  // >5 mistakes are the same color at the end
         Qid('w'+c).classList.add('hint')
       }
     }
