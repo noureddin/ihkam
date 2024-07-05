@@ -4,6 +4,8 @@ function Q    (selector) { return document.querySelector(selector) }
 function Qall (selector) { return document.querySelectorAll(selector) }
 function Qid  (id)       { return document.getElementById(id) }
 
+const now_ms = () => (new Date()).getTime()  // unix epoch in ms
+
 const range = (n) => n ? [...Array(n).keys()] : []
 
 // Fisher-Yates (aka Knuth) Shuffle

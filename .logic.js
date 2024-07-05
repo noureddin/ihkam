@@ -12,13 +12,52 @@ const unmark = (w) => w
 
 const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC] ))/)
 
+let int
+
 function clear_board () {
+  if (int != null) { clearInterval(int); int = null }
   p.hidden = true
   x.hidden = true
   el_endmsg.hidden = true
 }
 
 function recite (ayat, title='') {
+
+  const current = () => p.children.length
+
+  let time_start = now_ms()
+  let noplay_since = now_ms()
+  let away = false  // a good assumption, only breaks when auto-starting with the url params
+  let away_since = Infinity
+  window.onblur = () => {
+    away = true
+    away_since = now_ms()
+  }
+  window.onfocus = () => {
+    away = false
+    if (away_since === Infinity) {  // if the started without being focused
+      time_start = now_ms()
+    }
+    else {
+      const away_dur = now_ms() - away_since
+      time_start += away_dur
+    }
+  }
+
+  // const duration = () => now_ms() - time_start
+
+  if (int != null) { clearInterval(int) }
+
+  int = setInterval(() => {
+    if (away) { return }
+    // show hint one minute since last attempt, or 15 seconds since start if haven't played yet
+    const n = now_ms()
+    const c = current()
+    if (n - noplay_since >= 60_000 || n - time_start >= 15_000 && c === 0) {
+      Qid('w'+c).classList.add('th')  /* time hint */
+      delayed[c] = true
+    }
+  }, 1000)
 
   const teacher = el_teacher_input.checked
 
@@ -42,13 +81,19 @@ function recite (ayat, title='') {
   const final_count = words.length
 
   const mistakes = []
-  for (let i = 0; i < final_count; ++i) { mistakes[i] = 0 }
+  const delayed = []
+  for (let i = 0; i < final_count; ++i) { mistakes[i] = 0; delayed[i] = false }
 
   const done = () => {
     //
     range(final_count).forEach(i => {
       const m = mistakes[i]
-      Qid('w'+i).classList.add('m' + (m >= 5 ? 'x' : m))
+      const d = delayed[i]
+      Qid('w'+i).classList.add(
+        !d && m <  5 ? 'm'+m :
+         d && m <= 1 ? 'd'+m :
+                       'mx'
+      )
     })
     //
     el_endmsg.hidden = false
@@ -70,8 +115,10 @@ function recite (ayat, title='') {
   }
 
   const drop = (el) => {
+    noplay_since = now_ms()
+    Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
     const idx = +el.id.replace(/^w/, '')
-    const c = p.children.length
+    const c = current()
     if (idx === c) {
       real_drop(c)
     }
@@ -90,7 +137,7 @@ function recite (ayat, title='') {
     else {
       ++mistakes[c]
       if (mistakes[c] >= 5) {  // 5+ mistakes are the same color at the end
-        Qid('w'+c).classList.add('hint')
+        Qid('w'+c).classList.add('mh')  // mistakes hint
       }
     }
   }
