@@ -48,7 +48,7 @@ function recite (ayat, title='') {
     //
     range(final_count).forEach(i => {
       const m = mistakes[i]
-      Qid('w'+i).classList.add('m' + (m > 5 ? 'x' : m))
+      Qid('w'+i).classList.add('m' + (m >= 5 ? 'x' : m))
     })
     //
     el_endmsg.hidden = false
@@ -89,7 +89,7 @@ function recite (ayat, title='') {
     }
     else {
       ++mistakes[c]
-      if (mistakes[c] > 5) {  // >5 mistakes are the same color at the end
+      if (mistakes[c] >= 5) {  // 5+ mistakes are the same color at the end
         Qid('w'+c).classList.add('hint')
       }
     }

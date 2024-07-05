@@ -82,11 +82,10 @@ a[href]:active { text-decoration: underline }
 #about a:active { color: #22f }
 
 .mx { background-color: hsl(  0, 100%, 59%) }
-.m5 { background-color: hsl( 20, 100%, 55%) }
-.m4 { background-color: hsl( 40, 100%, 51%) }
-.m3 { background-color: hsl( 60, 100%, 42%) }
-.m2 { background-color: hsl( 80, 100%, 42%) }
-.m1 { background-color: hsl(100, 100%, 39%) }
+.m4 { background-color: hsl( 20, 100%, 55%) }
+.m3 { background-color: hsl( 40, 100%, 51%) }
+.m2 { background-color: hsl( 60, 100%, 42%) }
+.m1 { background-color: hsl( 80, 100%, 42%) }
 .m0 { background-color: hsl(120, 100%, 34%) }
 
 .hint {
@@ -103,11 +102,10 @@ select, input, button { filter: invert(1) }
 #x > .w:hover { background: #404050 }
 #inf { background: #252020 }
 .mx { background-color: hsl(  0, 100%, 44%) }
-.m5 { background-color: hsl( 20, 100%, 40%) }
-.m4 { background-color: hsl( 40, 100%, 36%) }
-.m3 { background-color: hsl( 60, 100%, 27%) }
-.m2 { background-color: hsl( 80, 100%, 26%) }
-.m1 { background-color: hsl(100, 100%, 24%) }
+.m4 { background-color: hsl( 20, 100%, 40%) }
+.m3 { background-color: hsl( 40, 100%, 36%) }
+.m2 { background-color: hsl( 60, 100%, 27%) }
+.m1 { background-color: hsl( 80, 100%, 26%) }
 .m0 { background-color: hsl(120, 100%, 19%) }
 #about a { color: #77a }
 #about a:hover,
