@@ -74,7 +74,7 @@ s{<<style>>}{
 
 s{<<script>>}{
   my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
-  sprintf '<script>%s</script>',
+  sprintf '<script>"use strict";%s</script>',
   execute qq[ cat @scripts | $js --compress top_retain='$R',passes=10 $m ]
 }sge;
 
