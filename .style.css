@@ -112,7 +112,7 @@ a[href]:active { text-decoration: underline }
 }
 
 @media (prefers-color-scheme: dark) {
-html, body { color: #f0f0f0; background: #000 }
+html, body { color: #f0f0f0; background: #100 }
 select, input, button { filter: invert(1) }
 #p { background: #202020 }
 .w { background: #302b2b }
