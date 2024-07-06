@@ -9,6 +9,7 @@
 * { font-family: AmiriQuranWeb }
 
 html, body { background: #f0f0e8; color: #000 }
+body { margin-top: 1em; transition: 0.5s margin-top }
 
 #p {
   text-align: right;
@@ -140,27 +141,13 @@ select, input, button { filter: invert(1) }
 }
 }
 
-.disabled { color: gray; cursor: not-allowed }
-input:disabled, select:disabled { cursor: not-allowed }
+label { display: inline-block }  /* don't break over lines */
 
 /* largely copied from Recite */
 
-#aaya_bgn, #aaya_end { font-family: KacstOne; }
+#aaya_bgn, #aaya_end { font-family: KacstOne, serif; }
 
-/* suar/ayat selection */
-#selectors > div label:first-child { /* من سورة and إلى سورة */
-  display: inline-block;
-  width: 4em;
-}
-#selectors > div {
-  display: inline-block;
-  max-width: 15em;
-  min-width: 40%;
-  margin: 0.1rem 0;
-}
 #aaya_bgn, #aaya_end { width: 1.5em; }
-/* #sura_bgn, #sura_end { width: 6.5em; } */
-#sura_bgn, #sura_end { width: 35%; }
 
 #ok { display: block }
 button {
@@ -186,8 +173,8 @@ button:disabled { cursor: not-allowed }
 #player {
   display: block;
   /* centered with https://stackoverflow.com/a/2006008 */
-  margin-left: -5rem; /* negative half of width */
-  width: 10em;
+  margin-left: -6em; /* negative half of width */
+  width: 12em;
   left: 50vw;
   /* sticky at top */
   position: fixed;

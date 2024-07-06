@@ -1,7 +1,5 @@
-// ligilumi: to parse url parameters
-// verso: a verse
-// versligilumi: parsing verses (not preferences) url params
-//
+// ligilumi: parsing url parameters
+
 // from my other project Recite: https://github.com/noureddin/recite/
 
 const MAX_AYA  = 6236
@@ -77,7 +75,7 @@ function ayat_to_ayat (staya, enaya) {  // each is 1-6236 or 1/7 (sura/aya)
   return [st, en]
 }
 
-function _versligilumilo (params) {
+function _ligilumilo (params) {
   let st; let en  // start aaya and end aaya
   // possible params:
   // - s: sura, an entire sura. 1-114.
@@ -90,6 +88,8 @@ function _versligilumilo (params) {
   let a = 0; let b = 0
   // - b: before, a number of ayat to add before whatever you select. 0-inf.
   // - a: after,  a number of ayat to add before whatever you select. 0-inf.
+  //
+  let l  // level: 0 (beginner) to 4 (impossible)
   params
     .slice(1)  // remove the first character (`?` or `#`)
     .split('&')
@@ -99,19 +99,21 @@ function _versligilumilo (params) {
       const is_of = (...params) => params.includes(e[0])
            if (is_of('a')) { a = isNaN(+e[1]) ? a : +e[1] }
       else if (is_of('b')) { b = isNaN(+e[1]) ? b : +e[1] }
+      else if (is_of('l')) { const v = +e[1]; if (!isNaN(v) && v >= 0 && v < 5) { l = v } }
       else if (is_of('s')) { [st, en] = suras_to_ayat(...range_to_pair(e[1])) || [st, en] }
       else                 { [st, en] =  ayat_to_ayat(...range_to_pair(e[0])) || [st, en] }
     })
-  if (st == null || en == null) { return [null, null] }
+  if (st == null || en == null) { return [null, null, l] }
   st -= b; en += a
   if (st <= 0)    { st = 1    }
   if (en >  6236) { en = 6236 }
-  return [st, en]
+  return [st, en, l]
 }
 
-function versligilumi () {
-  const [st, en] = _versligilumilo(window.location.hash || window.location.search)
+function ligilumi () {
+  const [st, en, lvl] = _ligilumilo(window.location.hash || window.location.search)
   //
+  if (lvl != null) { Qid('l'+lvl).checked = true }
   // if no ayat are selected
   if (st == null || en == null) { return }
   ;[el_sura_bgn.value, el_aaya_bgn.value] = idx2aya(st-1).map((n,i) => i === 0 ? n - 1 : n)

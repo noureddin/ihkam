@@ -36,7 +36,21 @@ function clear_board () {
   el_endmsg.hidden = true
 }
 
-function recite (ayat, title='') {
+// WAIT is the time before showing a hint, in millisecond
+// SHORT_WAIT is the time before hint of first phrase; should be 1/4 of WAIT
+// MAX is the maximum number of phrases to show on one screen
+// LIMIT is the maximum number of phrases (< MAX) before splitting into two, shuffled separately; should be odd and ~80% of MAX
+const levels = [
+  { MAX: 10, LIMIT:  7, WAIT: 20_000, SHORT_WAIT:  5_000 },
+  { MAX: 18, LIMIT: 13, WAIT: 40_000, SHORT_WAIT: 10_000 },
+  { MAX: 30, LIMIT: 25, WAIT: 60_000, SHORT_WAIT: 15_000 },
+  { MAX: 50, LIMIT: 39, WAIT: 90_000, SHORT_WAIT: 22_500 },
+  { MAX: 90, LIMIT: 71, WAIT:150_000, SHORT_WAIT: 37_500 },
+]
+
+function recite (ayat, title='', lvl=2) {
+
+  const { MAX, LIMIT, WAIT, SHORT_WAIT } = levels[lvl]
 
   const current = () => p.children.length
 
@@ -69,7 +83,7 @@ function recite (ayat, title='') {
     // show hint one minute since last attempt, or 15 seconds since start if haven't played yet
     const n = now_ms()
     const c = current()
-    if (n - noplay_since >= 60_000 || n - time_start >= 15_000 && c === 0) {
+    if (n - noplay_since >= WAIT || n - time_start >= SHORT_WAIT && c === 0) {
       Qid('w'+c).classList.add('th')  /* time hint */
       delayed[c] = true
     }
@@ -122,6 +136,8 @@ function recite (ayat, title='') {
   }
 
   const real_drop = (idx) => {
+    noplay_since = now_ms()
+    Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
     if (idx === 0) { clean_placeholder() }
     const w = Qid('w'+idx)
     w.innerHTML = w.dataset.word
@@ -133,8 +149,6 @@ function recite (ayat, title='') {
   }
 
   const drop = (el) => {
-    noplay_since = now_ms()
-    Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
     const idx = +el.id.r(/^w/, '')
     const c = current()
     if (idx === c) {
@@ -192,10 +206,11 @@ function recite (ayat, title='') {
   const cards = words.map((e,i) => mkword(e,i))
   allwords.clear()
 
-  if (cards.length <= 30) {
-    if (cards.length > 25) {
-      // if 26 to 30 cards, put the first half (13 to 15 cards) first, then the second half
-      shuffle(cards.splice(0,Math.trunc(cards.length/2))).forEach(e => x.appendChild(e))
+  if (cards.length <= MAX) {
+    if (cards.length > LIMIT) {
+      const N = Math.trunc(cards.length/2)
+      // eg, for 30 (lvl 2): if 26 to 30 cards, put the first half (13 to 15 cards) first, then the second half
+      shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
       shuffle(cards).forEach(e => x.appendChild(e))
     }
     else {
@@ -204,8 +219,9 @@ function recite (ayat, title='') {
     var next_subset = () => {}
   }
   else {
-    shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
-    shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
+    const N = Math.trunc(MAX/2)
+    shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
+    shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
     const inf = (() => {
       const el = document.createElement('div')
       el.innerHTML = '\u221e' /* infinity */
@@ -215,8 +231,8 @@ function recite (ayat, title='') {
     })()
     x.appendChild(inf)
     var next_subset = () => {
-      if (cards.length && x.children.length <= 15+1) {  /* +1 for #inf */
-        shuffle(cards.splice(0,15)).forEach(e => x.appendChild(e))
+      if (cards.length && x.children.length <= N+1) {  /* +1 for #inf */
+        shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
         cards.length ? x.appendChild(inf) /* replace */ : x.removeChild(inf)
       }
     }

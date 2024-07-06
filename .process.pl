@@ -23,7 +23,7 @@ my @scripts = qw[
   .logic.js
   .g.js
   .z.js
-  .versligilumi.js
+  .ligilumi.js
   .main.js
   .confetti.min.js
 ];
@@ -61,8 +61,8 @@ s{<<qaris>>}{
 }sge;
 
 # minify html
-s/>\s+</></g;
-s/\s*>/>/g;
+s/\s*</</g;  # note: this changes the behavior of the html; I'm relying on that
+s/\s+>/>/g;
 s/<!--.*?-->//g;
 s/\s+/ /g;
 s/\A //;

@@ -45,7 +45,14 @@ const audio = (function () {
   function set_idx (i) { cur_idx = i; fetch() }
 
   function show_or_hide_player () {
-    invalid_state() ? hide_el(el_player) : show_el(el_player)
+    if (invalid_state()) {
+      hide_el(el_player)
+      document.body.style.marginTop = '1em'
+    }
+    else {
+      show_el(el_player)
+      document.body.style.marginTop = '2em'
+    }
   }
 
   function update_qari (qari) {

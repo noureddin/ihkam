@@ -2,7 +2,7 @@
 
 // copied from my other project: Recite: https://github.com/noureddin/recite
 
-const el_selectors = Qid("selectors")
+const el_allselectors = Qid("allselectors")
 const el_sura_bgn = Qid("sura_bgn")
 const el_aaya_bgn = Qid("aaya_bgn")
 const el_sura_end = Qid("sura_end")
@@ -61,6 +61,8 @@ const sura_bgn_val    = () => el_sura_bgn.value === '' ? '' :                   
 const sura_end_val    = () => el_sura_end.value === '' ? '' :                     +el_sura_end.value
 const aaya_bgn_val    = () => el_aaya_bgn.value === '' ? '' : +defilter_aaya_input(el_aaya_bgn.value)
 const aaya_end_val    = () => el_aaya_end.value === '' ? '' : +defilter_aaya_input(el_aaya_end.value)
+
+const level_val = () => { for (let i = 0; i < 5; ++i) { if (Qid('l'+i).checked) { return i } } return 2 }
 
 // validate_aaya_sura_input
 // called oninput and onblur with the element; only called for {sura,aaya}_{bgn,end} inputs.
@@ -177,21 +179,8 @@ function init_inputs () {
   el_sura_bgn.onkeyup = el_aaya_bgn.onkeyup = el_sura_end.onkeyup = el_aaya_end.onkeyup = input_trigger_x
 }
 
-function disable_input (el) {
-  el.disabled = true
-  el.parentElement.classList.add('disabled')  // label
-}
-
-function enable_input (el) {
-  el.disabled = false
-  el.parentElement.classList.remove('disabled')  // label
-}
-
 const hide_selectors = function () {
-  el_qaris.parentElement.hidden = true
-  el_teacher_input.parentElement.hidden = true
-  el_selectors.hidden = true
-  el_ok.hidden = true
+  el_allselectors.hidden = true
   //
   el_header.hidden = false
 }
@@ -199,10 +188,7 @@ const hide_selectors = function () {
 const show_selectors = function () {
   validate_aaya_sura_input({})  // filters inputs & disables/enables ok button
   //
-  el_qaris.parentElement.hidden = false
-  el_teacher_input.parentElement.hidden = false
-  el_selectors.hidden = false
-  el_ok.hidden = false
+  el_allselectors.hidden = false
   //
   el_header.hidden = true
 }
@@ -210,13 +196,14 @@ const show_selectors = function () {
 function start_reciting () {
   const [SA, AA] = [sura_bgn_val(), aaya_bgn_val()]
   const [SZ, AZ] = [sura_end_val(), aaya_end_val()]
+  const lvl = level_val()
   if (!valid_inputs(SA, AA, SZ, AZ)) { return }
   const st = sura_offset[SA] + AA
   const en = sura_offset[SZ] + AZ
-  const title = make_title(+SA+1, +AA, +SZ+1, +AZ)[0].replace(/تسميع /, 'رتب عبارات ')
+  const title = 'رتب عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
   init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value)
   hide_selectors()
-  load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), title))
+  load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), title, lvl))
 }
 
 function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
@@ -247,31 +234,31 @@ function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
   if (sura_bgn === sura_end) {
     // if exactly one aaya
     if (aaya_bgn === aaya_end) {
-      return [`تسميع الآية${nbsp}${a_bgn_txt} من${nbsp}سورة${nbsp}${s_bgn_txt}`, '']
+      return `الآية${nbsp}${a_bgn_txt} من${nbsp}سورة${nbsp}${s_bgn_txt}`
     }
     // if exactly two ayat
     if (aaya_end === aaya_bgn + 1) {
-      return [`تسميع الآيتين${nbsp}${a_bgn_txt} و${a_end_txt} من${nbsp}سورة${nbsp}${s_bgn_txt}`, '']
+      return `الآيتين${nbsp}${a_bgn_txt} و${a_end_txt} من${nbsp}سورة${nbsp}${s_bgn_txt}`
     }
     // if one complete sura
     if (aaya_bgn === 1 && aaya_end === s_end_len) {
-      return [`تسميع سورة ${s_bgn_txt} كاملة`, '']
+      return `سورة ${s_bgn_txt} كاملة`
     }
     // otherwise: one partial sura
-    return [`تسميع سورة${nbsp}${s_bgn_txt} من${nbsp}الآية${nbsp}${a_bgn_txt} حتى${nbsp}الآية${nbsp}${a_end_txt}`, '']
+    return `سورة${nbsp}${s_bgn_txt} من${nbsp}الآية${nbsp}${a_bgn_txt} حتى${nbsp}الآية${nbsp}${a_end_txt}`
   }
   // more than one sura:
   // if multiple complete suar
   if (aaya_bgn === 1 && aaya_end === s_end_len) {
     // if exactly two
     if (sura_end === sura_bgn + 1) {
-      return [`تسميع سورتي ${s_bgn_txt} و${s_end_txt} كاملتين`, '']
+      return `سورتي ${s_bgn_txt} و${s_end_txt} كاملتين`
     }
     // otherwise: more than two (one is handled previously)
-    return [`تسميع السور من${nbsp}${s_bgn_txt} حتى${nbsp}${s_end_txt}`, '']
+    return `السور من${nbsp}${s_bgn_txt} حتى${nbsp}${s_end_txt}`
   }
   // otherwise
-  return [`تسميع من${nbsp}سورة${nbsp}${s_bgn_txt} الآية${nbsp}${a_bgn_txt} حتى${nbsp}سورة${nbsp}${s_end_txt} الآية${nbsp}${a_end_txt}`, 'manymany']
+  return `من${nbsp}سورة${nbsp}${s_bgn_txt} الآية${nbsp}${a_bgn_txt} حتى${nbsp}سورة${nbsp}${s_end_txt} الآية${nbsp}${a_end_txt}`
 }
 
 el_ok.onclick = start_reciting
