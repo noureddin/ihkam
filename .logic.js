@@ -141,7 +141,10 @@ function recite (ayat, title='', lvl=2) {
     p.classList.add('done')
   }
 
+  const phrase_mistakes = new Set()  // add, has, clear
+
   const real_drop = (idx) => {
+    phrase_mistakes.clear()
     noplay_since = now_ms()
     Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
     if (idx === 0) { clean_placeholder() }
@@ -172,7 +175,9 @@ function recite (ayat, title='', lvl=2) {
       b.dataset.word = other
       real_drop(c)
     }
-    else {
+    else {  // mistake
+      if (phrase_mistakes.has(idx)) { return }
+      phrase_mistakes.add(idx)  // count multiple clicks on a single wrong phrase a single mistake
       ++mistakes[c]
       if (mistakes[c] >= 5) {  // 5+ mistakes are the same color at the end
         Qid('w'+c).classList.add('mh')  // mistakes hint
@@ -180,7 +185,7 @@ function recite (ayat, title='', lvl=2) {
     }
   }
 
-  const allwords = new Map()  // set, has
+  const allwords = new Map()  // set, has, clear
   const identicals = new Map()
   const reidenticals = new Map()
 
