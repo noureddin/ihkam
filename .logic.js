@@ -190,7 +190,6 @@ function recite (ayat, title='', lvl=2) {
   const reidenticals = new Map()
 
   const mkword = (word, idx) => {
-    const el = document.createElement('div')
     const w = unmark(word)
     if (allwords.has(w)) {
       identicals.set(w, new Set([allwords.get(w), ...(identicals.get(w) ?? []), idx]))
@@ -200,19 +199,19 @@ function recite (ayat, title='', lvl=2) {
     else {
       allwords.set(w, idx)
     }
-    el.innerHTML = w
-    el.id = 'w'+idx
-    el.classList.add('w')
-    el.draggable = true
-    el.dataset.word = word
-    el.ondragstart = (ev) => {
-      ev.dataTransfer.setData('text/plain', idx)
-      ev.dataTransfer.dropEffect = 'move'
-    }
-    el.onclick = (ev) => drop(el)
-    return el
+    return make_elem('div', {
+      Classes: 'w',
+      Dataset: { word },
+      innerHTML: w,
+      id: 'w'+idx,
+      draggable: true,
+      ondragstart: (ev) => {
+        ev.dataTransfer.setData('text/plain', idx)
+        ev.dataTransfer.dropEffect = 'move'
+      },
+      onclick: (ev) => drop(ev.target),
+    })
   }
-
 
   const cards = words.map((e,i) => mkword(e,i))
   allwords.clear()
@@ -233,13 +232,7 @@ function recite (ayat, title='', lvl=2) {
     const N = Math.trunc(MAX/2)
     shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
     shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
-    const inf = (() => {
-      const el = document.createElement('div')
-      el.innerHTML = '\u221e' /* infinity */
-      el.id = 'inf'
-      el.title = 'ستظهر عبارات أخرى عندما ترتب بعض هذه العبارات.'
-      return el
-    })()
+    const inf = make_elem('div', { id: 'inf', innerHTML: '\u221e' /* infinity */, title: 'ستظهر عبارات أخرى عندما ترتب بعض هذه العبارات.' })
     x.appendChild(inf)
     var next_subset = () => {
       if (cards.length && x.children.length <= N+1) {  /* +1 for #inf */

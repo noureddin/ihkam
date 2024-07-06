@@ -11,6 +11,19 @@ const range = (n) => n ? [...Array(n).keys()] : []
 // shorthand
 String.prototype.r = String.prototype.replace
 
+function make_elem (tag, opts={}, classes=[]) {
+  const el = document.createElement(tag)
+  for (let opt in opts)
+    if (opt === 'Classes')
+      el.classList.add(...opts.Classes.split(/\s+/))
+    else if (opt === 'Dataset')
+      for (let k in opts.Dataset)
+        el.dataset[k] = opts.Dataset[k]
+    else
+      el[opt] = opts[opt]
+  return el
+}
+
 // Fisher-Yates (aka Knuth) Shuffle
 // https://stackoverflow.com/a/2450976
 function shuffle (arr) {

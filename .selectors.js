@@ -18,9 +18,7 @@ function start_ (s) { return +suar_length.slice(0, s).reduce((a, b) => a + b, 0)
 const sura_offset = range(115).map(start_)  // array mapping 0-based suar to how many ayat before it (eg 0 => 0, 1 => 7, 2 => 286+7)
 
 suar_name.forEach((name, idx) => {
-  const opt = document.createElement('option')
-  opt.value = idx
-  opt.text = name
+  const opt = make_elem('option', { value: idx, text: name })
   el_sura_bgn.add(opt)
   el_sura_end.add(opt.cloneNode(true))
 })
