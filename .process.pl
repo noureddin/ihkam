@@ -34,6 +34,21 @@ local $_ = slurp_stdin;
 
 ## PROCESS & MINIFY
 
+my $legend = join '', map {
+  sprintf '<tr><td class="w %s">العبارة الظاهرة بهذا اللون</td><td>%s.</td></tr>', @$_
+}
+  ['m0', 'تعني أنها بلا أخطاء'],
+  ['m1', 'تعني أنها بخطأ واحد'],
+  ['m2', 'تعني أنها بخطأين'],
+  ['m3', 'تعني أنها بثلاثة أخطاء'],
+  ['m4', 'تعني أنها بأربعة أخطاء'],
+  ['mx', 'لأكثر من أربعة أخطاء، أو متأخرة وبأكثر من خطأ'],
+  ['d0', 'تعني أنها متأخرة لكن بغير خطأ'],
+  ['d1', 'تعني أنها متأخرة وبخطأ واحد'],
+  ['df', 'للعبارة الأولى فقط، لو متأخرة لكن بغير خطأ'],
+;
+s{<<legend>>}{$legend}sg;
+
 my $title = 'إحكام - اختبر حفظك للقرآن الكريم بترتيب أجزاء الآيات';
 my $desc = 'تطبيق وب مجاني لمراجعة حفظ القرآن الكريم بطريقة سهلة مثل ألغاز تركيب الصور، للحاسوب والمحمول.';
 my $url = 'https://www.noureddin.dev/ihkam';
@@ -61,7 +76,7 @@ s{<<qaris>>}{
 }sge;
 
 # minify html
-s/\s*</</g;  # note: this changes the behavior of the html; I'm relying on that
+s/\s+</</g;  # note: this changes the behavior of the html; I'm relying on that
 s/\s+>/>/g;
 s/<!--.*?-->//g;
 s/\s+/ /g;

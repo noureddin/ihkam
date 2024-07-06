@@ -20,6 +20,9 @@ body { margin-top: 1em; transition: 0.5s margin-top }
   line-height: 3;
 }
 
+#leg { text-align: right; margin: 1em 0; font-size: 80% }
+td { padding: 0.25em }
+
 center {
   width: min(50em, 95vw);
   margin: 0 auto;
@@ -121,7 +124,7 @@ select, input, button { filter: invert(1) }
 .mx { background-color: hsl(  0, 100%, 44%) }
 .m4 { background-color: hsl( 24, 100%, 40%) }
 .m3 { background-color: hsl( 42, 100%, 38%) }
-.m2 { background-color: hsl( 63, 100%, 30%) }
+.m2 { background-color: hsl( 60, 100%, 32%) }
 .m1 { background-color: hsl( 80, 100%, 29%) }
 .m0 { background-color: hsl(120, 100%, 19%) }
 .df { background-color: hsl(170, 100%, 20%) }
