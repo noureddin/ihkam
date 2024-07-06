@@ -115,17 +115,23 @@ function recite (ayat, title='', lvl=2) {
   for (let i = 0; i < final_count; ++i) { mistakes[i] = 0; delayed[i] = false }
 
   const done = () => {
+    const seen = new Set()
     //
     range(final_count).forEach(i => {
       const m = mistakes[i]
       const d = delayed[i]
-      Qid('w'+i).classList.add(
+      const cls =
          d && m === 0 && i === 0
                      ? 'df' :
         !d && m <  5 ? 'm'+m :
          d && m <= 1 ? 'd'+m :
                        'mx'
-      )
+      Qid('w'+i).classList.add(cls)
+      seen.add(cls)
+    })
+    //
+    'm0 m1 m2 m3 m4 mx df d0 d1'.split(' ').forEach(cls => {
+      Q('#leg .'+cls).parentElement.hidden = !seen.has(cls)
     })
     //
     el_endmsg.hidden = false
