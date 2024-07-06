@@ -62,6 +62,7 @@ s{<<qaris>>}{
 
 # minify html
 s/>\s+</></g;
+s/\s*>/>/g;
 s/<!--.*?-->//g;
 s/\s+/ /g;
 s/\A //;

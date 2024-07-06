@@ -177,9 +177,19 @@ function init_inputs () {
   el_sura_bgn.onkeyup = el_aaya_bgn.onkeyup = el_sura_end.onkeyup = el_aaya_end.onkeyup = input_trigger_x
 }
 
+function disable_input (el) {
+  el.disabled = true
+  el.parentElement.classList.add('disabled')  // label
+}
+
+function enable_input (el) {
+  el.disabled = false
+  el.parentElement.classList.remove('disabled')  // label
+}
+
 const hide_selectors = function () {
-  el_qaris.disabled = true
-  el_teacher_input.disabled = true
+  el_qaris.parentElement.hidden = true
+  el_teacher_input.parentElement.hidden = true
   el_selectors.hidden = true
   el_ok.hidden = true
   //
@@ -189,8 +199,8 @@ const hide_selectors = function () {
 const show_selectors = function () {
   validate_aaya_sura_input({})  // filters inputs & disables/enables ok button
   //
-  el_qaris.disabled = false
-  el_teacher_input.disabled = false
+  el_qaris.parentElement.hidden = false
+  el_teacher_input.parentElement.hidden = false
   el_selectors.hidden = false
   el_ok.hidden = false
   //

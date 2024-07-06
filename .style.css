@@ -140,8 +140,8 @@ select, input, button { filter: invert(1) }
 }
 }
 
-[disabled] ~ label, label:has(~ [disabled]) { color: gray; cursor: not-allowed }
-input[disabled], select[disabled] { cursor: not-allowed }
+.disabled { color: gray; cursor: not-allowed }
+input:disabled, select:disabled { cursor: not-allowed }
 
 /* largely copied from Recite */
 
