@@ -5,33 +5,42 @@
   font-weight: 400;
   src: url('AmiriQuran.woff2') format('woff2');
 }
+
 * { font-family: AmiriQuranWeb }
+
+html, body { background: #f0f0e8; color: #000 }
+
 #p {
   text-align: right;
   border: 1px solid gray;
   border-radius: 0.5em;
-  background: #f0f0f0;
+  background: #e8e8e0;
   padding: 1em 0.5em;
   line-height: 3;
 }
+
 center {
   width: min(50em, 95vw);
   margin: 0 auto;
   box-sizing: border-box;
 }
+
 #p > .w {
   display: inline;
 }
+
 #x > .w {
   display: inline-block;
   border: 1px solid gray;
 }
+
 .w {
   border-radius: 0.5em;
   background: lightgray;
   padding: 0.25em 0.5em;
   margin: 0.1em;
 }
+
 #x > .w:hover {
   background: #e0e0e0;
   cursor: pointer;
@@ -87,6 +96,7 @@ a[href]:active { text-decoration: underline }
 .m2 { background-color: hsl( 60, 100%, 42%) }
 .m1 { background-color: hsl( 80, 100%, 42%) }
 .m0 { background-color: hsl(120, 100%, 34%) }
+.df { background-color: hsl(170, 100%, 33%) }
 .d1 { background-color: hsl(180,  90%, 45%) }
 .d0 { background-color: hsl(220,  95%, 60%) }
 
@@ -108,11 +118,12 @@ select, input, button { filter: invert(1) }
 #x > .w:hover { background: #404050 }
 #inf { background: #252020 }
 .mx { background-color: hsl(  0, 100%, 44%) }
-.m4 { background-color: hsl( 28, 100%, 42%) }
+.m4 { background-color: hsl( 24, 100%, 40%) }
 .m3 { background-color: hsl( 42, 100%, 38%) }
 .m2 { background-color: hsl( 63, 100%, 30%) }
 .m1 { background-color: hsl( 80, 100%, 29%) }
 .m0 { background-color: hsl(120, 100%, 19%) }
+.df { background-color: hsl(170, 100%, 20%) }
 .d1 { background-color: hsl(180, 100%, 27%) }
 .d0 { background-color: hsl(220, 100%, 29%) }
 #about a { color: #77a }

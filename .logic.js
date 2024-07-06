@@ -105,6 +105,8 @@ function recite (ayat, title='') {
       const m = mistakes[i]
       const d = delayed[i]
       Qid('w'+i).classList.add(
+         d && m === 0 && i === 0
+                     ? 'df' :
         !d && m <  5 ? 'm'+m :
          d && m <= 1 ? 'd'+m :
                        'mx'
