@@ -65,6 +65,7 @@ function recite (ayat, title='') {
 
   int = setInterval(() => {
     if (away) { return }
+    if (Qall('.mh').length) { return }  // if a mistakes hint is shown
     // show hint one minute since last attempt, or 15 seconds since start if haven't played yet
     const n = now_ms()
     const c = current()
