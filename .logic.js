@@ -4,11 +4,26 @@ const p = Qid('p')
 const x = Qid('x')
 const el_endmsg = Qid('endmsg')
 
-const unmark = (w) => w
-  .replace(/\u06de\xa0/, '')
-  .replace(/\xa0\u06dd[٠-٩]+(?:\xa0\u06e9)?/, '')
-  .replace(/[\u06D6-\u06DC] /, ' ')
-  .replace(/\u0305/g, '')  // overline
+const unmark = (phrase) => phrase
+  // remove mosħaf formatting signs
+  .r(/\xa0\u06dd[٠-٩]+(?:\xa0\u06e9)?/, '')  // ayah number & sajda if any
+  .r(/\u06de\xa0/,       '')   // start of rub el hizb if found
+  .r(/[\u06D6-\u06DC] /, '')   // waqf signs
+  .r(/\u0305/g,          '')   // combining overline
+  .r(/^(.)\u0651/g,      '$1') // initial shadda-of-idgham
+  // remove final tashkeel signs (except shadda)
+  .r(/[\u06e4-\u06e6]+$/g,   '')    // madd-monfasel & madd sela
+  .r(/\u06e1$/,              '')    // jazm (quranic sukun)
+  .r(/[\u064e-\u0650]$/,     '')    // fatha, damma, kasra
+  .r(/[\u064c\u064d]$/,      '')    // tanween {damm, kasr}
+  .r(/[\u08f1\u08f2]$/,      '')    // open tanween {damm, kasr}
+  .r(/\u064f\u06e2$/,        '')    // iqlab tanween damm
+  .r(/\u0650\u06ed$/,        '')    // iqlab tanween kasr
+  .r(/\u064b([اى]?)$/,       '$1')  // tanween fath
+  .r(/\u08f0([اى]?)$/,       '$1')  // open tanween fath
+  .r(/\u064e\u06e2([اى]?)$/, '$1')  // iqlab tanween fath
+  .r(/\u064e([اى]?)$/,       '$1')  // just fath, before final alef (either kind), because of tanween (eg, إذا)
+  .r(/(ى)\u0670$/,           '$1')  // dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
 
 const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC] ))/)
 
@@ -75,7 +90,7 @@ function recite (ayat, title='') {
     p.innerText = ''
   }
 
-  const w = ayat.map(e => e.replace(/[A-Z<>]/g, ''))
+  const w = ayat.map(e => e.r(/[A-Z<>]/g, ''))
 
   const words = w.flatMap(e => split(e))
   const final_count = words.length
@@ -117,7 +132,7 @@ function recite (ayat, title='') {
   const drop = (el) => {
     noplay_since = now_ms()
     Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
-    const idx = +el.id.replace(/^w/, '')
+    const idx = +el.id.r(/^w/, '')
     const c = current()
     if (idx === c) {
       real_drop(c)

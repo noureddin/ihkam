@@ -8,6 +8,9 @@ const now_ms = () => (new Date()).getTime()  // unix epoch in ms
 
 const range = (n) => n ? [...Array(n).keys()] : []
 
+// shorthand
+String.prototype.r = String.prototype.replace
+
 // Fisher-Yates (aka Knuth) Shuffle
 // https://stackoverflow.com/a/2450976
 function shuffle (arr) {
