@@ -9,7 +9,9 @@
 * { font-family: AmiriQuranWeb }
 
 html, body { background: #f0f0e8; color: #000 }
-body { margin-top: 1em; transition: 0.5s margin-top }
+input, button, select { font-size: inherit }
+body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
+@media (max-width: 320px) { body { font-size: 18px } }
 
 #p {
   text-align: right;
@@ -24,7 +26,8 @@ body { margin-top: 1em; transition: 0.5s margin-top }
 td { padding: 0.25em }
 
 center {
-  width: min(50em, 95vw);
+  width: 50em;
+  max-width: 95vw;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -154,6 +157,7 @@ label { display: inline-block }  /* don't break over lines */
 
 #ok { display: block }
 button {
+  width: 6em;
   width: min(35vw, 10rem);
   transition: opacity 0.5s ease-in-out;
   touch-action: manipulation; /* disable double-tap zooming; https://stackoverflow.com/a/53236027 */
@@ -161,7 +165,6 @@ button {
 }
 
 button:disabled { cursor: not-allowed }
-#header button { margin: 0 1em }
 
 #qaris {
   font-family: serif;
