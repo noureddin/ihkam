@@ -201,6 +201,7 @@ function start_reciting () {
   const title = 'رتب عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
   init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value)
   hide_selectors()
+  x.innerHTML = 'يحمّل…'; x.hidden = false
   load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), title, lvl))
 }
 
