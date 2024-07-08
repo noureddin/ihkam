@@ -11,7 +11,7 @@ const range = (n) => n ? [...Array(n).keys()] : []
 // shorthand
 String.prototype.r = String.prototype.replace
 
-function make_elem (tag, opts={}, classes=[]) {
+function make_elem (tag, opts={}) {
   const el = document.createElement(tag)
   for (let opt in opts)
     if (opt === 'Classes')

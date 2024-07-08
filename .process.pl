@@ -77,6 +77,7 @@ s{<<qaris>>}{
 
 # minify html
 s/\s+</</g;  # note: this changes the behavior of the html; I'm relying on that
+s/&spc;/ /g;  # for the rarely needed space that would otherwise be removed by the previous rule
 s/\s+>/>/g;
 s/<!--.*?-->//g;
 s/\s+/ /g;

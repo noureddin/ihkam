@@ -25,7 +25,15 @@ const unmark = (phrase) => phrase
   .r(/\u064e([اى]?)$/,       '$1')  // just fath, before final alef (either kind), because of tanween (eg, إذا)
   .r(/(ى)\u0670$/,           '$1')  // dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
 
-const split = (a) => a.split(/(?:\n|(?<=[\u06D6-\u06DC] ))/)
+function phrasify_ayat (ayat) {
+  // equiv. to: return ayat.flatMap(a => a.split(/(?<=[\u06D6-\u06DC] |\n)/))
+  // but supports older-ish browsers that don't have flatMap nor lookbehind
+  // (that "\n" is for the added basmala before the beginning of almost all suar)
+  const ret = []
+  const arr = ayat.map(a => a.replace(/([\u06D6-\u06DC] |\n)/g, '$1X').split('X'))
+  for (let i = 0; i < arr.length; ++i) { ret.push(...arr[i]) }
+  return ret
+}
 
 let int
 
@@ -107,7 +115,7 @@ function recite (ayat, title='', lvl=2) {
 
   const w = ayat.map(e => e.r(/[A-Z<>]/g, ''))
 
-  const words = w.flatMap(e => split(e))
+  const words = phrasify_ayat(w)
   const final_count = words.length
 
   const mistakes = []
@@ -192,7 +200,8 @@ function recite (ayat, title='', lvl=2) {
   const mkword = (word, idx) => {
     const w = unmark(word)
     if (allwords.has(w)) {
-      identicals.set(w, new Set([allwords.get(w), ...(identicals.get(w) ?? []), idx]))
+      const old = identicals.get(w) == null ? [] : identicals.get(w)
+      identicals.set(w, new Set([allwords.get(w), ...old, idx]))
       reidenticals.set(allwords.get(w), w)
       reidenticals.set(idx, w)
     }
