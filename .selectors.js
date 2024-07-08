@@ -11,6 +11,7 @@ const el_ok = Qid("ok")
 const el_header = Qid("header")
 const el_new = Qid("new")
 const el_repeat = Qid("repeat")
+const el_title = Qid("title")
 
 const suar_length = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6]
 const suar_name = ['الفاتحة','البقرة','آل عمران','النساء','المائدة','الأنعام','الأعراف','الأنفال','التوبة','يونس','هود','يوسف','الرعد','إبراهيم','الحجر','النحل','الإسراء','الكهف','مريم','طه','الأنبياء','الحج','المؤمنون','النور','الفرقان','الشعراء','النمل','القصص','العنكبوت','الروم','لقمان','السجدة','الأحزاب','سبأ','فاطر','يس','الصافات','ص','الزمر','غافر','فصلت','الشورى','الزخرف','الدخان','الجاثية','الأحقاف','محمد','الفتح','الحجرات','ق','الذاريات','الطور','النجم','القمر','الرحمن','الواقعة','الحديد','المجادلة','الحشر','الممتحنة','الصف','الجمعة','المنافقون','التغابن','الطلاق','التحريم','الملك','القلم','الحاقة','المعارج','نوح','الجن','المزمل','المدثر','القيامة','الإنسان','المرسلات','النبأ','النازعات','عبس','التكوير','الانفطار','المطففين','الانشقاق','البروج','الطارق','الأعلى','الغاشية','الفجر','البلد','الشمس','الليل','الضحى','الشرح','التين','العلق','القدر','البينة','الزلزلة','العاديات','القارعة','التكاثر','العصر','الهمزة','الفيل','قريش','الماعون','الكوثر','الكافرون','النصر','المسد','الإخلاص','الفلق','الناس',]
@@ -198,20 +199,21 @@ function start_reciting () {
   if (!valid_inputs(SA, AA, SZ, AZ)) { return }
   const st = sura_offset[SA] + AA
   const en = sura_offset[SZ] + AZ
-  const title = 'رتب عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
+  const title = 'عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
   init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value)
   hide_selectors()
   x.innerHTML = 'يحمّل…'; x.hidden = false
-  load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), title, lvl))
+  el_title.innerText = 'رتب ' + title
+  load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), 'اضغط بالترتيب على ' + title, lvl))
 }
 
 function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
 
   //// the longest strings (some are impossible):
   // return ["تسميع الآية ٣٠٠ الأخيرة من سورة العنكبوت", 'oneaaya']
-  // return ["تسميع سورة العنكبوت كاملة", 'onesura']
+  // return ["تسميع سورة العنكبوت", 'onesura']
   // return ["تسميع سورة العنكبوت من الآية ٣٠٠ حتى الآية ٣٠٠ الأخيرة", 'manyaaya']
-  // return ["تسميع سورتي العنكبوت والعنكبوت كاملتين", 'twosura']
+  // return ["تسميع سورتي العنكبوت والعنكبوت", 'twosura']
   // return ["تسميع السور من العنكبوت حتى العنكبوت", 'manysura']
   // return ["تسميع من سورة العنكبوت الآية ٣٠٠ الأخيرة حتى سورة العنكبوت الآية ٣٠٠ الأخيرة", 'manymany']
   // return ["تسميع الآيتين ٣٠٠ الأخيرة و٣٠٠ الأخيرة من سورة العنكبوت", 'twoaaya']
@@ -241,7 +243,7 @@ function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
     }
     // if one complete sura
     if (aaya_bgn === 1 && aaya_end === s_end_len) {
-      return `سورة ${s_bgn_txt} كاملة`
+      return `سورة ${s_bgn_txt}`
     }
     // otherwise: one partial sura
     return `سورة${nbsp}${s_bgn_txt} من${nbsp}الآية${nbsp}${a_bgn_txt} حتى${nbsp}الآية${nbsp}${a_end_txt}`
@@ -251,7 +253,7 @@ function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
   if (aaya_bgn === 1 && aaya_end === s_end_len) {
     // if exactly two
     if (sura_end === sura_bgn + 1) {
-      return `سورتي ${s_bgn_txt} و${s_end_txt} كاملتين`
+      return `سورتي ${s_bgn_txt} و${s_end_txt}`
     }
     // otherwise: more than two (one is handled previously)
     return `السور من${nbsp}${s_bgn_txt} حتى${nbsp}${s_end_txt}`
