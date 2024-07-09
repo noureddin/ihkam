@@ -28,6 +28,11 @@ my @scripts = qw[
   .confetti.min.js
 ];
 
+# confetti.min.js is from: https://github.com/mathusummut/confetti.js. Copyright (c) 2018 MathuSum Mut. MIT License
+
+# gunzipSync is from fflate with a few modifications (check .g.ts)
+# MIT License; original source: https://github.com/101arrowz/fflate
+
 ## BEGIN
 
 local $_ = slurp_stdin;
