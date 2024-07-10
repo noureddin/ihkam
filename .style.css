@@ -76,26 +76,24 @@ center {
   font-family: serif;
 }
 #about {
-  font-size: 60%;
+  font-size: 80%;
   margin: 0;
   margin-top: 2em;
   padding: 0.5em 1em 0.5em 1em;
   box-sizing: border-box;
-  color: #888;
+  color: #444;
   border-top: 1px solid gray;
 }
-
-#xyz { font-family: monospace }
 
 a { text-decoration: none }
 a[href]:hover,
 a[href]:focus,
 a[href]:active { text-decoration: underline }
 
-#about a { color: #99f }
+#about a { color: #55f }
 #about a:hover,
-#about a:focus { color: #55f }
-#about a:active { color: #22f }
+#about a:focus { color: #33f }
+#about a:active { color: #11f }
 
 .mx { background-color: hsl(  0, 100%, 59%) }
 .m4 { background-color: hsl( 25, 100%, 55%) }
@@ -133,10 +131,11 @@ select, input, button { filter: invert(1) }
 .df { background-color: hsl(170, 100%, 20%) }
 .d1 { background-color: hsl(180, 100%, 27%) }
 .d0 { background-color: hsl(220, 100%, 29%) }
-#about a { color: #77a }
+#about { color: #ddd }
+#about a { color: #99f }
 #about a:hover,
-#about a:focus { color: #77d }
-#about a:active { color: #99f }
+#about a:focus { color: #9bf }
+#about a:active { color: #9df }
 .mh {
   box-shadow: 0 0 0.1em 0.1em #f44a,
         inset 0 0 0.4em 0.4em #f44a;
