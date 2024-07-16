@@ -21,7 +21,7 @@ my @scripts = qw[
   .audio.js
   .selectors.js
   .logic.js
-  .g.js
+  .lzma-d-min.js
   .z.js
   .ligilumi.js
   .main.js
@@ -30,8 +30,8 @@ my @scripts = qw[
 
 # confetti.min.js is from: https://github.com/mathusummut/confetti.js. Copyright (c) 2018 MathuSum Mut. MIT License
 
-# gunzipSync is from fflate with a few modifications (check .g.ts)
-# MIT License; original source: https://github.com/101arrowz/fflate
+# lzma-d-min.js from LZMA-JS by Nathan Rugg; v2.3.0; License: MIT.
+# https://github.com/LZMA-JS/LZMA-JS/blob/master/src/lzma-d-min.js
 
 ## BEGIN
 
