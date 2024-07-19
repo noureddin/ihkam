@@ -152,7 +152,16 @@ label { display: inline-block }  /* don't break over lines */
 
 #aaya_bgn, #aaya_end { font-family: KacstOne, serif; }
 
-#aaya_bgn, #aaya_end { width: 1.5em; }
+#aaya_bgn, #aaya_end { width: 3em; }
+
+@media (max-width: 312px) {
+  .sura { display: none }
+  .as > label:first-child { width: 1.6em }  /* من سورة and إلى سورة */
+}
+
+@media (max-width: 225px) {
+  .aaya { display: none }
+}
 
 #ok { display: block }
 button {

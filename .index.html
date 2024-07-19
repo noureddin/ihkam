@@ -12,8 +12,18 @@
 <div id=allselectors>
 <div class=option><label>تلاوة بصوت:&ensp;<select id=qaris><option value="" selected>بغير تلاوة صوتية</option><<qaris>></select></label></div>
 <div id=teacher_option class=option hidden><label><input id="teacher_input" type="checkbox">&ensp;معلم؟ (التلاوة الصوتية قبل الآية)</label></div>
-<div class="as"><label>من&nbsp;سورة:&thinsp;<select id=sura_bgn><option value selected>السورة</option></select></label>&ensp;<label>الآية:&thinsp;<input id=aaya_bgn></label></div>
-<div class="as"><label>إلى&nbsp;سورة:&thinsp;<select id=sura_end><option value selected>السورة</option></select></label>&ensp;<label>الآية:&thinsp;<input id=aaya_end></label></div>
+<div class="as">
+  <label for="sura_bgn">من<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
+  <select id="sura_bgn"></select>&thinsp;
+  <label for="aaya_bgn"><span class="aaya">الآية:&thinsp;</span></label>
+  <select id="aaya_bgn"></select>
+</div>
+<div class="as">
+  <label for="sura_end">إلى<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
+  <select id="sura_end"></select>&thinsp;
+  <label for="aaya_end"><span class="aaya">الآية:&thinsp;</span></label>
+  <select id="aaya_end"></select>
+</div>
 <div id=levels_option class=option>
   <label><input name=lvl id=l0 type=radio>&thinsp;مبتدئ</label>&ensp;
   <label><input name=lvl id=l1 type=radio>&thinsp;سهل</label>&ensp;
@@ -21,7 +31,7 @@
   <label><input name=lvl id=l3 type=radio>&thinsp;صعب</label>&ensp;
   <label><input name=lvl id=l4 type=radio>&thinsp;مستحيل</label>&ensp;
 </div>
-<button disabled title="حدد ما تريد مراجعته أو تسميعه، ثم اضغط على هذا الزر." id=ok>ابدأ</button>
+<button title="حدد ما تريد مراجعته أو تسميعه، ثم اضغط على هذا الزر." id=ok>ابدأ</button>
 </div>
 <div hidden id=header>
 <p id=title></p>

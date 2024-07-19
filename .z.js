@@ -10,7 +10,7 @@ function tajweed_colorize_aaya (a) {
 const make_audio_list = (sura_bgn, aaya_bgn, sura_end, aaya_end) =>
   range(115).slice(+sura_bgn + 1, +sura_end + 2)
     // s is the sura number, 1-based
-    .map(s => range(+suar_length[s - 1] + 1)
+    .map(s => range(+sura_length[s - 1] + 1)
       .slice(s === +sura_bgn + 1 ? +aaya_bgn     :   1,
              s === +sura_end + 1 ? +aaya_end + 1 : 300  // larger than any sura
       )
@@ -136,8 +136,8 @@ function make_words_list (st, en, cn) {  // uthmani
   //   cn = false
   // }
 
-  // const st = +suar_length.slice(0, sura_bgn).reduce((a,b)=>a+b, 0) + +aaya_bgn
-  // const en = +suar_length.slice(0, sura_end).reduce((a,b)=>a+b, 0) + +aaya_end
+  // const st = +sura_length.slice(0, sura_bgn).reduce((a,b)=>a+b, 0) + +aaya_bgn
+  // const en = +sura_length.slice(0, sura_end).reduce((a,b)=>a+b, 0) + +aaya_end
 
   // all spaces are a single space in html;
   // let's make tab ('\t') separates the words,

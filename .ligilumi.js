@@ -35,7 +35,7 @@ function suras_to_ayat (stsura, ensura) {  // each is 1-114
   if (stsura < 1        || ensura < 1       ) { return }
   if (stsura > MAX_SURA || ensura > MAX_SURA) { return }
   const st = start_(stsura - 1) + 1
-  const en = start_(ensura - 1) + suar_length[ensura - 1]
+  const en = start_(ensura - 1) + sura_length[ensura - 1]
   return [st, en]
 }
 
@@ -54,7 +54,7 @@ function _aya2idx (aya) {  // 1-6236 or 1/7
     const [sura, aaya] = [ +a[0], +a[1] ]
     if (isNaN(sura) || isNaN(aaya)) { return }
     if (sura < 1 || sura > MAX_SURA) { return }
-    const max_aaya = suar_length[sura - 1]
+    const max_aaya = sura_length[sura - 1]
     const clamped_aaya = Math.max(1, Math.min(max_aaya, aaya))
     // that clamps the aaya number to the valid range,
     // so zero is the first aaya, and 300 is the last aaya in the sura.
@@ -116,8 +116,11 @@ function ligilumi () {
   if (lvl != null) { Qid('l'+lvl).checked = true }
   // if no ayat are selected
   if (st == null || en == null) { return }
-  ;[el_sura_bgn.value, el_aaya_bgn.value] = idx2aya(st-1).map((n,i) => i === 0 ? n - 1 : n)
-  ;[el_sura_end.value, el_aaya_end.value] = idx2aya(en-1).map((n,i) => i === 0 ? n - 1 : n)
-  validate_aaya_sura_input({})  // fix numerals
+  const stpair = idx2aya(st-1)
+  const enpair = idx2aya(en-1)
+  el_sura_bgn.value = stpair[0]-1
+  el_sura_end.value = enpair[0]-1
+  set_aayaat(el_aaya_bgn, sura_bgn_length(), stpair[1])
+  set_aayaat(el_aaya_end, sura_end_length(), enpair[1])
   start_reciting()
 }

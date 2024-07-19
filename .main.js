@@ -10,7 +10,6 @@ function decode_contact () {
 
 clear_board()
 init_inputs()
-validate_aaya_sura_input({})
 change_qari()
 decode_contact()
 ligilumi()
