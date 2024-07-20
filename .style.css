@@ -200,3 +200,14 @@ button:disabled { cursor: not-allowed }
   z-index: 30;  /* higher than the help toggle label */
 }
 
+#spinner { animation: spin 1.6s infinite linear; stroke: currentColor }
+@keyframes spin {
+    0% { transform: rotate(0turn) }
+  100% { transform: rotate(1turn) }
+}
+#spinner-svg {
+    width: 4em;
+    margin: 1em auto;
+    vertical-align: bottom;
+}
+

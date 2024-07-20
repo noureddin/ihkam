@@ -24,6 +24,13 @@ function make_elem (tag, opts={}) {
   return el
 }
 
+function make_svgelem (tag, attrs={}, opts={}) {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag)
+  for (let attr in attrs)
+    el.setAttribute(attr, attrs[attr])
+  return el
+}
+
 // Fisher-Yates (aka Knuth) Shuffle
 // https://stackoverflow.com/a/2450976
 function shuffle (arr) {
