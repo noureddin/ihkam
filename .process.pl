@@ -22,6 +22,7 @@ my @scripts = qw[
   .audio.js
   .search.js
   .selectors.js
+  .quran.js
   .logic.js
   .lzma-d-min.js
   .z.js
@@ -40,7 +41,7 @@ my @scripts = qw[
 
 local $_ = slurp_stdin;
 
-my @ids = m/id="([^"]+)"/g;
+my @ids = (s/<!--.*?-->//gr) =~ /id="([^"]+)"/g;
 
 ## PROCESS & MINIFY
 
@@ -85,6 +86,8 @@ s{<<qaris>>}{
   execute q' cat res/qaris | while read value; do read title; printf "<option value=%s>%s</option>" "$value" "$title"; done '
 }sge;
 
+s{(<button.*?)id="(.*?)"}{$1 data-goatcounter-click="$2" id="$2"}g;
+
 # minify html
 s/\s+</</g;  # note: this changes the behavior of the html; I'm relying on that
 s/&spc;/ /g;  # for the rarely needed space that would otherwise be removed by the previous rule
@@ -93,6 +96,12 @@ s/<!--.*?-->//g;
 s/\s+/ /g;
 s/\A //;
 s/ \Z//;
+
+s{<(?!svg|circle|line).*?>}{
+  $&
+    =~ s/(\b\w+)="([^\s"'`<>=]+)"/$1=$2/gr
+    =~ s/(\b\w+)=""/$1/gr
+}sge;
 
 # style
 s{<<style>>}{

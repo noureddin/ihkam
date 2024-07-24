@@ -1,10 +1,6 @@
 
 // copied from my other project: Recite: https://github.com/noureddin/recite
 
-function tajweed_colorize_aaya (a) {
-  return a.replace(/([A-Z])<([^>]+)>/g, '<span_class="$1">$2</span>')
-}
-
 // returns ayat ref in the form sprintf("%03d%03d", sura_num, aaya_num)
 const make_audio_list = (sura_bgn, aaya_bgn, sura_end, aaya_end) =>
   range(115).slice(+sura_bgn + 1, +sura_end + 2)
@@ -95,7 +91,7 @@ function load (st, en, callback) {
   const load_part = (part, start, end, cb) => {
     // check an arbitrary aaya in the given part, then callback or load it then callback
     if (ayat[start]) { cb(); return }
-    fetch(`res/uthm${part}.lzma`)
+    fetch(`res/u${part}.lzma`)
       .then((res) => res.ok ? res.arrayBuffer() : null)
       .then((buf) => {
         ayat = [
@@ -135,52 +131,3 @@ function load (st, en, callback) {
 
 }
 
-function make_words_list (st, en, cn) {  // uthmani
-
-  // // continuation; ie, append a "phrase" from the next aaya if in the same sura
-  // const last_aya_of_sura = sura_offset[sura_of(en)]
-  // if (cn && en < last_aya_of_sura) {  // don't continue if at the end of sura
-  //   en += 1
-  // }
-  // else {
-  //   cn = false
-  // }
-
-  // const st = +sura_length.slice(0, sura_bgn).reduce((a,b)=>a+b, 0) + +aaya_bgn
-  // const en = +sura_length.slice(0, sura_end).reduce((a,b)=>a+b, 0) + +aaya_end
-
-  // all spaces are a single space in html;
-  // let's make tab ('\t') separates the words,
-  // and newline ('\n' with 'whitespace: pre-line') separates the ayat.
-
-  const basmala = 'بِسۡمِ ٱللَّهِ ٱX<ل>R<رَّ>حۡمَT<ـٰ>نِ ٱX<ل>R<رَّ>حِJ<ی>مِ A<۝>D<١>'  /* uthm[0] */
-      .replace(/\xa0.*/, '').replace(/ /g, '\xa0')  // '\ufdfd'
-
-  return (
-    ayat
-      .slice(st-1, en)
-      .reduce((arr, aya, i) => {
-        // https://stackoverflow.com/a/38528645
-        if (aya.startsWith('#')) {
-          arr.push(basmala+'<br>')
-          aya = aya.replace('#', '')
-        }
-        if (cn && i === en-st) {
-          // based on kind_of_portion() in a.js
-          aya = aya.replace(/([\u06DC\u06D6\u06D7\u06D8\u06DA\u06DB]) .*/, '$1')
-        }
-        arr.push(aya)
-        return arr
-      }, [])
-      // for quran-data
-      .map(a => a.replace(/أ\u064eو\u064e /g, 'أ\u064eو\u064e'))
-      // continuing
-      .map(a => tajweed_colorize_aaya(a))
-      .map(a => a.replace(/ /g, '\t<SPC>') + '\n')
-      .map(a => a.replace(/_/g, ' '))  // for tajweed
-      .reduce((arr, aya) => {
-        arr.push(...aya.split('<SPC>', -1))  // split and flatten
-        return arr
-      }, [])
-  )
-}

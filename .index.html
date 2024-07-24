@@ -10,8 +10,8 @@
 <center>
 <div id="body">
 <div id="allselectors">
-<div class=option><label>تلاوة بصوت:&ensp;<select id="qaris"><option value="" selected>بغير تلاوة صوتية</option><<qaris>></select></label></div>
-<div id="teacher_option" class=option hidden><label><input id="teacher_input" type="checkbox">&ensp;معلم؟ (التلاوة الصوتية قبل الآية)</label></div>
+<div class="option"><label>تلاوة بصوت:&ensp;<select id="qaris"><option value="" selected>بغير تلاوة صوتية</option><<qaris>></select></label></div>
+<div id="teacher_option" class="option" hidden><label><input id="teacher_input" type="checkbox">&ensp;معلم؟ (التلاوة الصوتية قبل الآية)</label></div>
 <div class="as">
   <label for="sura_bgn">من<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
   <select id="sura_bgn"></select>&thinsp;
@@ -26,19 +26,23 @@
   <select id="aaya_end"></select>&thinsp;
   <button class="search">🔍<span class="srcttl"> ابحث</span></button>
 </div>
-<div id="levels_option" class=option>
+<div id="levels_option" class="option">
   <label><input name=lvl id="l0" type=radio>&thinsp;مبتدئ</label>&ensp;
   <label><input name=lvl id="l1" type=radio>&thinsp;سهل</label>&ensp;
   <label><input name=lvl id="l2" type=radio checked>&thinsp;وسط</label>&ensp;
   <label><input name=lvl id="l3" type=radio>&thinsp;صعب</label>&ensp;
   <label><input name=lvl id="l4" type=radio>&thinsp;مستحيل</label>&ensp;
 </div>
-<button title="حدد ما تريد مراجعته أو تسميعه، ثم اضغط على هذا الزر." id="ok">ابدأ</button>
+  <div class=bh>
+    <button title="اختر الآيات التي تريد مراجعتها، ثم اضغط على هذا الزر لبدء الاختبار بغير رؤيتها أولا." id="ok">ابدأ الاختبار</button>
+    <button title="اختر الآيات التي تريد مراجعتها، ثم اضغط على هذا الزر لرؤيتها قبل بدء الاختبار." id="show">اعرض الآيات</button>
+  </div>
 </div>
-<div hidden id="header">
-<p id="title"></p>
-<button title="اضغط لبدء مراجعة جديدة" id="new">جديد</button>&emsp;
-<button title="اضغط لإعادة هذا التسميع من البداية" id="repeat">إعادة</button>
+<div hidden id="header" class="bh">
+  <p id="title"></p>
+  <button title="اضغط لبدء اختبار جديد." id="new">تغيير الآيات</button>
+  <button title="اضغط لإعادة هذا الاختبار من البداية." id="repeat">إعادة</button>
+  <button title="اضغط لقراءة الآيات بالكامل." id="reshow">اعرض الآيات</button>
 </div>
 <p id="p"></p>
 <p id="x"></p>

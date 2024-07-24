@@ -1,34 +1,15 @@
 
-const unmark = (phrase) => phrase
-  // remove mosħaf formatting signs
-  .r(/\xa0\u06dd[٠-٩]+(?:\xa0\u06e9)?/, '')  // ayah number & sajda if any
-  .r(/\u06de\xa0/,       '')   // start of rub el hizb if found
-  .r(/[\u06D6-\u06DC] /, '')   // waqf signs
-  .r(/\u0305/g,          '')   // combining overline
-  .r(/^(.)\u0651/g,      '$1') // initial shadda-of-idgham
-  // remove final tashkeel signs (except shadda)
-  .r(/[\u06e4-\u06e6]+$/g,   '')    // madd-monfasel & madd sela
-  .r(/\u06e1$/,              '')    // jazm (quranic sukun)
-  .r(/[\u064e-\u0650]$/,     '')    // fatha, damma, kasra
-  .r(/[\u064c\u064d]$/,      '')    // tanween {damm, kasr}
-  .r(/[\u08f1\u08f2]$/,      '')    // open tanween {damm, kasr}
-  .r(/\u064f\u06e2$/,        '')    // iqlab tanween damm
-  .r(/\u0650\u06ed$/,        '')    // iqlab tanween kasr
-  .r(/\u064b([اى]?)$/,       '$1')  // tanween fath
-  .r(/\u08f0([اى]?)$/,       '$1')  // open tanween fath
-  .r(/\u064e\u06e2([اى]?)$/, '$1')  // iqlab tanween fath
-  .r(/\u064e([اى]?)$/,       '$1')  // just fath, before final alef (either kind), because of tanween (eg, إذا)
-  .r(/(ى)\u0670$/,           '$1')  // dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
-
-function phrasify_ayat (ayat) {
-  // equiv. to: return ayat.flatMap(a => a.split(/(?<=[\u06D6-\u06DC] |\n)/))
-  // but supports older-ish browsers that don't have flatMap nor lookbehind
-  // (that "\n" is for the added basmala before the beginning of almost all suar)
-  const ret = []
-  const arr = ayat.map(a => a.replace(/([\u06D6-\u06DC] |\n)/g, '$1X').split('X'))
-  for (let i = 0; i < arr.length; ++i) { ret.push(...arr[i]) }
-  return ret
-}
+const {
+  unmark,
+  phrasify,
+  repeat_title,
+  preview_format,
+  preview_put,
+  current_idx,
+  recite_init,
+  recite_done,
+  do_drop,
+} = aayaat_logic
 
 let int
 
@@ -39,10 +20,36 @@ function clear_board () {
   el_endmsg.hidden = true
 }
 
+function init_board () {
+  if (int != null) { clearInterval(int); int = null }
+  el_repeat.innerText = 'إعادة'
+  el_repeat.title = 'اضغط لإعادة هذا الاختبار من البداية.'
+  el_repeat.dataset.goatcounterClick = 'repeat'
+  el_reshow.style.display = ''
+  el_header.classList.add('btn3')
+  //
+  el_endmsg.hidden = true
+  el_p.innerHTML = ''
+  el_x.innerHTML = ''
+  el_p.hidden = false
+  el_x.hidden = false
+}
+
+function preview (content) {
+  init_board()
+  el_repeat.innerText = 'ابدأ الاختبار'
+  el_repeat.title = 'ابدأ في ترتيب ' + repeat_title + '.'
+  el_repeat.dataset.goatcounterClick = 'start'
+  el_reshow.style.display = 'none'
+  el_header.classList.remove('btn3')
+  preview_put(content)
+}
+
 // WAIT is the time before showing a hint, in millisecond
 // SHORT_WAIT is the time before hint of first phrase; should be 1/4 of WAIT
 // MAX is the maximum number of phrases to show on one screen
-// LIMIT is the maximum number of phrases (< MAX) before splitting into two, shuffled separately; should be odd and ~80% of MAX
+// LIMIT is the maximum number of phrases (< MAX) before splitting into two,
+//   shuffled separately; should be odd and ~80% of MAX
 const levels = [
   { MAX: 10, LIMIT:  7, WAIT: 20_000, SHORT_WAIT:  5_000 },
   { MAX: 18, LIMIT: 13, WAIT: 40_000, SHORT_WAIT: 10_000 },
@@ -51,11 +58,12 @@ const levels = [
   { MAX: 90, LIMIT: 71, WAIT:150_000, SHORT_WAIT: 37_500 },
 ]
 
-function recite (ayat, title='', lvl=2) {
+function recite (content, lvl=2) {
+
+  init_board()
+  recite_init(content)
 
   const { MAX, LIMIT, WAIT, SHORT_WAIT } = levels[lvl]
-
-  const current = () => el_p.children.length
 
   let time_start = now_ms()
   let noplay_since = now_ms()
@@ -85,32 +93,14 @@ function recite (ayat, title='', lvl=2) {
     if (Qall('.mh').length) { return }  // if a mistakes hint is shown
     // show hint one minute since last attempt, or 15 seconds since start if haven't played yet
     const n = now_ms()
-    const c = current()
+    const c = current_idx()
     if (n - noplay_since >= WAIT || n - time_start >= SHORT_WAIT && c === 0) {
       Qid('w'+c).classList.add('th')  /* time hint */
       delayed[c] = true
     }
   }, 1000)
 
-  const teacher = el_teacher_input.checked
-
-  el_endmsg.hidden = true
-  el_x.innerHTML = ''
-  el_p.hidden = false
-  el_x.hidden = false
-
-  el_p.style.color = 'gray'
-  el_p.style.textAlign = 'center'
-  el_p.innerText = title
-  const clean_placeholder = () => {
-    el_p.style.color = ''
-    el_p.style.textAlign = ''
-    el_p.innerText = ''
-  }
-
-  const w = ayat.map(e => e.r(/[A-Z<>]/g, ''))
-
-  const words = phrasify_ayat(w)
+  const words = phrasify(content)
   const final_count = words.length
 
   const mistakes = []
@@ -118,6 +108,8 @@ function recite (ayat, title='', lvl=2) {
   for (let i = 0; i < final_count; ++i) { mistakes[i] = 0; delayed[i] = false }
 
   const done = () => {
+    if (int != null) { clearInterval(int); int = null }
+    //
     const seen = new Set()
     //
     range(final_count).forEach(i => {
@@ -138,6 +130,7 @@ function recite (ayat, title='', lvl=2) {
     })
     //
     el_endmsg.hidden = false
+    recite_done(content)
     confetti.start(1200, 50, 150)
     show_selectors()
     setTimeout(() => el_ok.focus(), 500)
@@ -150,19 +143,13 @@ function recite (ayat, title='', lvl=2) {
     phrase_mistakes.clear()
     noplay_since = now_ms()
     Qall('.mh, .th').forEach(e => e.classList.remove('mh', 'th'))  // remove hints
-    if (idx === 0) { clean_placeholder() }
-    const w = Qid('w'+idx)
-    w.innerHTML = w.dataset.word
-    if (w.dataset.word.match(/\u06dd|\ufdfd/)) { audio.next(); audio.play() }  // if basmala or end of ayah
-    w.draggable = false
-    w.classList.remove('hint')
-    el_p.append('\u200b', w)  // zero width space, to allow a phrase to start on the next line, without additional spacing
+    do_drop(idx)
     if (idx === final_count - 1) { done() } else { next_subset() }
   }
 
   const drop = (el) => {
     const idx = +el.id.r(/^w/, '')
-    const c = current()
+    const c = current_idx()
     if (idx === c) {
       real_drop(c)
     }
@@ -254,8 +241,4 @@ function recite (ayat, title='', lvl=2) {
     ev.preventDefault()
     drop(Qid('w'+ev.dataTransfer.getData('text/plain')))
   }
-
-  audio.set_index(teacher ? 0 : -1)
-  if (teacher) { audio.play(0) }
-
 }

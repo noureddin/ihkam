@@ -171,19 +171,31 @@ const show_selectors = function () {
   el_header.hidden = true
 }
 
-function start_reciting () {
+function accept_selectors (audio) {
   const [SA, AA] = [sura_bgn_val(), aaya_bgn_val()]
   const [SZ, AZ] = [sura_end_val(), aaya_end_val()]
-  const lvl = level_val()
   if (!valid_inputs(SA, AA, SZ, AZ)) { return }
   const st = sura_offset[SA] + AA
   const en = sura_offset[SZ] + AZ
   const title = 'عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
-  init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value)
   hide_selectors()
   x.innerHTML = ''; x.append(spinner); x.hidden = false
+  if (audio) { init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value) }
+  return [st, en, title]
+}
+
+function start_reciting () {
+  const [st, en, title] = accept_selectors(/* audio: */ true)
+  const lvl = level_val()
   el_title.innerText = 'رتب ' + title
-  load(st, en, () => recite(ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')), 'اضغط بالترتيب على ' + title, lvl))
+  load(st, en, () => recite([ 'اضغط بالترتيب على ' + title, ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ], lvl))
+}
+
+function show_first () {
+  const [st, en, title] = accept_selectors()
+  // TODO: audio: click on the aayah to listen to it
+  // el_title.innerText = 'رتب ' + title
+  load(st, en, () => preview([ '', ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ]))
 }
 
 function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
@@ -228,6 +240,7 @@ function make_title (sura_bgn, aaya_bgn, sura_end, aaya_end) {
 }
 
 el_ok.onclick = start_reciting
+el_show.onclick = el_reshow.onclick = show_first
 el_repeat.onclick = () => { start_reciting() }
 
 el_new.onclick = () => {

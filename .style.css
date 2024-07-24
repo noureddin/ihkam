@@ -1,13 +1,27 @@
 /* Amiri Quran 0.112, SIL OFL 1.1; https://github.com/alif-type/amiri */
 @font-face {
-  font-family: AmiriQuranWeb;
+  font-family: AmiriQuran;
   font-style: normal;
   font-weight: 400;
-  src: url('AmiriQuran.woff2') format('woff2');
+  src: local('Amiri Quran'), url('AmiriQuran.woff2') format('woff2');
   font-display: swap;
 }
 
-* { font-family: AmiriQuranWeb }
+/* KacstOne 5.0 (GNU GPL v2) is from: https://sourceforge.net/projects/arabeyes/files/Fonts/ */
+/* It is subsetted and converted to WOFF2 using glyphhanger */
+@font-face {
+  font-family: KacstOne;
+  font-style: normal;
+  font-weight: 400;
+  src: local('KacstOne'), url('KacstOne-subset.woff2') format('woff2');
+  font-display: swap;
+}
+
+* { font-family: KacstOne, serif }
+#p, #p *, #x *, #endmsg { font-family: AmiriQuran }
+
+#allselectors > * { padding: 0.1em 0 }
+select { padding: 0.25em }
 
 /* some of the lightmode colors */
 :root {
@@ -38,7 +52,6 @@
 }}
 
 html, body { background: var(--bg); color: var(--fg) }
-input, button, select { font-size: inherit }
 body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
 @media (max-width: 320px) { body { font-size: 18px } }
 
@@ -48,22 +61,31 @@ body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
   border-radius: 0.5em;
   background: #e8e8e0;
   padding: 1em 0.5em;
-  line-height: 3;
+  line-height: 3.1;
+  white-space: pre-line;  /* to add '\n' if reciting both sura 8 & sura 9 */
 }
 
-#leg { text-align: right; margin: 1em 0; font-size: 80% }
-td { padding: 0.25em }
+#t { padding: 0 1em }  /* when showing the content before recitation */
 
-center {
+#leg { text-align: right; margin: 1em 0; font-size: 80% }
+table { border-spacing: 0 0.4em }
+td { padding: 0.25em }
+td:first-child { max-width: 35vw }  /* for narrow screens */
+
+body > center {
   width: 50em;
   max-width: 95vw;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
-#p > .w {
+#p .w {
   display: inline;
 }
+
+/* basmala on very narrow screens */
+@media (max-width: 259px) { #p > center { font-size: 90% } }
+@media (max-width: 229px) { #p > center { font-size: 80% } }
 
 #x > .w {
   display: inline-block;
@@ -83,7 +105,6 @@ center {
 }
 
 .option { margin-bottom: 0.5em }
-#ok { margin: 0.75em 0 }
 
 #inf {
   display: inline-block;
@@ -101,9 +122,6 @@ center {
 
 #body { min-height: calc(100vh - 8em) }  /* make #about stick near the footer if short page */
 
-#about, #about * {
-  font-family: serif;
-}
 #about {
   font-size: 80%;
   margin: 0;
@@ -178,15 +196,12 @@ label { display: inline-block }  /* don't break over lines */
 
 /* largely copied from Recite */
 
-#aaya_bgn, #aaya_end { font-family: KacstOne, AmiriQuranWeb, serif; }
-
 #aaya_bgn, #aaya_end { width: 3em; }
 
 /* search buttons in #selectors */
-.srcttl { font-family: inherit; color: inherit }
-.as > button { width: initial; padding: 0 1em }
-@media (max-width: 580px) { .as > button { padding: 0 0.25em } }
+.as > button { width: initial; padding: 0.25em 1em }
 @media (max-width: 440px) {
+.as > button { padding: 0.25em 0.5em }
 .srcttl {  /* .sr-only -- hide visually but keep it for screenreaders */
   position: absolute;
   width: 1px;
@@ -207,21 +222,20 @@ label { display: inline-block }  /* don't break over lines */
   margin: 0.1em 0;
 }
 
-#sura_bgn, #sura_end { width: 35%; }
+.as > label:first-child { width: 4em }  /* من سورة and إلى سورة */
 
 @media (max-width: 339px) {
   .sura { display: none }
-  .as > label:first-child { width: 1.6em }  /* من سورة and إلى سورة */
+  .as > label:first-child { width: 1.6em }  /* من and إلى */
 }
 
-@media (max-width: 254px) {
+@media (max-width: 279px) {
   .aaya { display: none }
 }
 
-#ok { display: block }
 button {
-  width: 6em;
-  width: min(35vw, 10rem);
+  display: inline-block;
+  padding: 0.25em 1em;
   transition: opacity 0.5s ease-in-out;
   touch-action: manipulation; /* disable double-tap zooming; https://stackoverflow.com/a/53236027 */
   cursor: pointer;
@@ -229,10 +243,33 @@ button {
 
 button:disabled { cursor: not-allowed }
 
+#levels_option > label { margin: 0.25em }
+
+.bh button {
+  margin: 1em;
+  min-width: 7em;
+  width: 10em;
+  max-width: 35vw;
+  padding: 0.5em;
+}
+
+@media (max-width: 427px) {  /* smaller, but still two buttons in a single row */
+.bh button { margin: 1em 0.5em; max-width: 50vw }
+}
+
+@media (max-width: 410px) {  /* eventually will be two rows */
+.bh button { margin: 0.5em; max-width: 70vw }
+.bh { margin-top: 1em }
+}
+
 #qaris {
-  font-family: serif;
-  margin-top: 1em;
-  width: calc(100% - 7em);
+  margin: 1em 0;
+  width: calc(100% - 6.5em);
+}
+
+#teacher_option {
+  margin-top: -1em;
+  margin-bottom: 1em;
 }
 
 #preloader {
@@ -303,7 +340,7 @@ button:disabled { cursor: not-allowed }
     vertical-align: bottom;
 }
 
-.aya { font-family: AmiriQuranWeb !important }
+.aya { font-family: AmiriQuran !important }
 
 /* end: common styling for popups: search */
 
@@ -388,3 +425,9 @@ button:disabled { cursor: not-allowed }
 }
 
 /* end: search */
+
+select, .bh { margin: 0.5em 0 }
+hr, #selectors { margin-top: 1em }
+
+.btn3 button { width: min(23vw, 8rem); margin: 0 0.67em }
+
