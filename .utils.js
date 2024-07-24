@@ -1,8 +1,11 @@
-'use strict'
 
 function Q    (selector) { return document.querySelector(selector) }
 function Qall (selector) { return document.querySelectorAll(selector) }
 function Qid  (id)       { return document.getElementById(id) }
+
+Element.prototype.Q    = Element.prototype.querySelector
+Element.prototype.Qall = Element.prototype.querySelectorAll
+// Element.prototype.Qid  = Element.prototype.getElementById
 
 const now_ms = () => (new Date()).getTime()  // unix epoch in ms
 

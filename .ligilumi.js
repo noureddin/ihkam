@@ -111,7 +111,7 @@ function _ligilumilo (params) {
 }
 
 function ligilumi () {
-  const [st, en, lvl] = _ligilumilo(window.location.hash || window.location.search)
+  const [st, en, lvl] = _ligilumilo(location.search + location.hash.replace(/^#/, '&'))
   //
   if (lvl != null) { Qid('l'+lvl).checked = true }
   // if no ayat are selected

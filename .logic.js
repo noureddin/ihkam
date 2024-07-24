@@ -1,8 +1,3 @@
-'use strict'
-
-const p = Qid('p')
-const x = Qid('x')
-const el_endmsg = Qid('endmsg')
 
 const unmark = (phrase) => phrase
   // remove mosħaf formatting signs
@@ -39,8 +34,8 @@ let int
 
 function clear_board () {
   if (int != null) { clearInterval(int); int = null }
-  p.hidden = true
-  x.hidden = true
+  el_p.hidden = true
+  el_x.hidden = true
   el_endmsg.hidden = true
 }
 
@@ -60,7 +55,7 @@ function recite (ayat, title='', lvl=2) {
 
   const { MAX, LIMIT, WAIT, SHORT_WAIT } = levels[lvl]
 
-  const current = () => p.children.length
+  const current = () => el_p.children.length
 
   let time_start = now_ms()
   let noplay_since = now_ms()
@@ -100,17 +95,17 @@ function recite (ayat, title='', lvl=2) {
   const teacher = el_teacher_input.checked
 
   el_endmsg.hidden = true
-  x.innerHTML = ''
-  p.hidden = false
-  x.hidden = false
+  el_x.innerHTML = ''
+  el_p.hidden = false
+  el_x.hidden = false
 
-  p.style.color = 'gray'
-  p.style.textAlign = 'center'
-  p.innerText = title
+  el_p.style.color = 'gray'
+  el_p.style.textAlign = 'center'
+  el_p.innerText = title
   const clean_placeholder = () => {
-    p.style.color = ''
-    p.style.textAlign = ''
-    p.innerText = ''
+    el_p.style.color = ''
+    el_p.style.textAlign = ''
+    el_p.innerText = ''
   }
 
   const w = ayat.map(e => e.r(/[A-Z<>]/g, ''))
@@ -146,7 +141,7 @@ function recite (ayat, title='', lvl=2) {
     confetti.start(1200, 50, 150)
     show_selectors()
     setTimeout(() => el_ok.focus(), 500)
-    p.classList.add('done')
+    el_p.classList.add('done')
   }
 
   const phrase_mistakes = new Set()  // add, has, clear
@@ -161,7 +156,7 @@ function recite (ayat, title='', lvl=2) {
     if (w.dataset.word.match(/\u06dd|\ufdfd/)) { audio.next(); audio.play() }  // if basmala or end of ayah
     w.draggable = false
     w.classList.remove('hint')
-    p.append('\u200b', w)  // zero width space, to allow a phrase to start on the next line, without additional spacing
+    el_p.append('\u200b', w)  // zero width space, to allow a phrase to start on the next line, without additional spacing
     if (idx === final_count - 1) { done() } else { next_subset() }
   }
 
@@ -229,33 +224,33 @@ function recite (ayat, title='', lvl=2) {
     if (cards.length > LIMIT) {
       const N = Math.trunc(cards.length/2)
       // eg, for 30 (lvl 2): if 26 to 30 cards, put the first half (13 to 15 cards) first, then the second half
-      shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
-      shuffle(cards).forEach(e => x.appendChild(e))
+      shuffle(cards.splice(0,N)).forEach(e => el_x.appendChild(e))
+      shuffle(cards).forEach(e => el_x.appendChild(e))
     }
     else {
-      shuffle(cards).forEach(e => x.appendChild(e))
+      shuffle(cards).forEach(e => el_x.appendChild(e))
     }
     var next_subset = () => {}
   }
   else {
     const N = Math.trunc(MAX/2)
-    shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
-    shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
+    shuffle(cards.splice(0,N)).forEach(e => el_x.appendChild(e))
+    shuffle(cards.splice(0,N)).forEach(e => el_x.appendChild(e))
     const inf = make_elem('div', { id: 'inf', innerHTML: '\u221e' /* infinity */, title: 'ستظهر عبارات أخرى عندما ترتب بعض هذه العبارات.' })
-    x.appendChild(inf)
+    el_x.appendChild(inf)
     var next_subset = () => {
-      if (cards.length && x.children.length <= N+1) {  /* +1 for #inf */
-        shuffle(cards.splice(0,N)).forEach(e => x.appendChild(e))
-        cards.length ? x.appendChild(inf) /* replace */ : x.removeChild(inf)
+      if (cards.length && el_x.children.length <= N+1) {  /* +1 for #inf */
+        shuffle(cards.splice(0,N)).forEach(e => el_x.appendChild(e))
+        cards.length ? el_x.appendChild(inf) /* replace */ : el_x.removeChild(inf)
       }
     }
   }
 
-  p.ondragover = (ev) => {
+  el_p.ondragover = (ev) => {
     ev.preventDefault()
     ev.dataTransfer.dropEffect = 'move'
   }
-  p.ondrop = (ev) => {
+  el_p.ondrop = (ev) => {
     ev.preventDefault()
     drop(Qid('w'+ev.dataTransfer.getData('text/plain')))
   }

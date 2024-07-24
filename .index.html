@@ -8,51 +8,63 @@
 </head>
 <body>
 <center>
-<div id=body>
-<div id=allselectors>
-<div class=option><label>تلاوة بصوت:&ensp;<select id=qaris><option value="" selected>بغير تلاوة صوتية</option><<qaris>></select></label></div>
-<div id=teacher_option class=option hidden><label><input id="teacher_input" type="checkbox">&ensp;معلم؟ (التلاوة الصوتية قبل الآية)</label></div>
+<div id="body">
+<div id="allselectors">
+<div class=option><label>تلاوة بصوت:&ensp;<select id="qaris"><option value="" selected>بغير تلاوة صوتية</option><<qaris>></select></label></div>
+<div id="teacher_option" class=option hidden><label><input id="teacher_input" type="checkbox">&ensp;معلم؟ (التلاوة الصوتية قبل الآية)</label></div>
 <div class="as">
   <label for="sura_bgn">من<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
   <select id="sura_bgn"></select>&thinsp;
   <label for="aaya_bgn"><span class="aaya">الآية:&thinsp;</span></label>
-  <select id="aaya_bgn"></select>
+  <select id="aaya_bgn"></select>&thinsp;
+  <button class="search">🔍<span class="srcttl"> ابحث</span></button>
 </div>
 <div class="as">
   <label for="sura_end">إلى<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
   <select id="sura_end"></select>&thinsp;
   <label for="aaya_end"><span class="aaya">الآية:&thinsp;</span></label>
-  <select id="aaya_end"></select>
+  <select id="aaya_end"></select>&thinsp;
+  <button class="search">🔍<span class="srcttl"> ابحث</span></button>
 </div>
-<div id=levels_option class=option>
-  <label><input name=lvl id=l0 type=radio>&thinsp;مبتدئ</label>&ensp;
-  <label><input name=lvl id=l1 type=radio>&thinsp;سهل</label>&ensp;
-  <label><input name=lvl id=l2 type=radio checked>&thinsp;وسط</label>&ensp;
-  <label><input name=lvl id=l3 type=radio>&thinsp;صعب</label>&ensp;
-  <label><input name=lvl id=l4 type=radio>&thinsp;مستحيل</label>&ensp;
+<div id="levels_option" class=option>
+  <label><input name=lvl id="l0" type=radio>&thinsp;مبتدئ</label>&ensp;
+  <label><input name=lvl id="l1" type=radio>&thinsp;سهل</label>&ensp;
+  <label><input name=lvl id="l2" type=radio checked>&thinsp;وسط</label>&ensp;
+  <label><input name=lvl id="l3" type=radio>&thinsp;صعب</label>&ensp;
+  <label><input name=lvl id="l4" type=radio>&thinsp;مستحيل</label>&ensp;
 </div>
-<button title="حدد ما تريد مراجعته أو تسميعه، ثم اضغط على هذا الزر." id=ok>ابدأ</button>
+<button title="حدد ما تريد مراجعته أو تسميعه، ثم اضغط على هذا الزر." id="ok">ابدأ</button>
 </div>
-<div hidden id=header>
-<p id=title></p>
-<button title="اضغط لبدء مراجعة جديدة" id=new>جديد</button>&emsp;
-<button title="اضغط لإعادة هذا التسميع من البداية" id=repeat>إعادة</button>
+<div hidden id="header">
+<p id="title"></p>
+<button title="اضغط لبدء مراجعة جديدة" id="new">جديد</button>&emsp;
+<button title="اضغط لإعادة هذا التسميع من البداية" id="repeat">إعادة</button>
 </div>
 <p id="p"></p>
 <p id="x"></p>
 <div hidden id="endmsg">بارك الله فيك وفتح&nbsp;عليك!&nbsp;<<party-popper>>
 <!-- U+1F389 Party Popper, from NotoColorEmoji; https://github.com/googlefonts/noto-emoji/raw/main/svg/emoji_u1f389.svg -->
-<table id=leg><<legend>></table><!-- legend for the feedback colors -->
+<table id="leg"><<legend>></table><!-- legend for the feedback colors -->
 </div>
 </div>
-<p id=about><a href="https://github.com/noureddin/ihkam/">Code</a>&spc;│&spc;<a id=xyz>البريد</a>&spc;│&spc;<a href="https://www.noureddin.dev/recite/">تطبيق مراجعة القرآن الكريم (رسيت Recite)</a>&spc;│&spc;<a href="https://www.noureddin.dev/">التطبيقات الأخرى</a></p>
+<p id="about"><a href="https://github.com/noureddin/ihkam/">Code</a>&spc;│&spc;<a id=xyz>البريد</a>&spc;│&spc;<a href="https://www.noureddin.dev/recite/">تطبيق مراجعة القرآن الكريم (رسيت Recite)</a>&spc;│&spc;<a href="https://www.noureddin.dev/">التطبيقات الأخرى</a></p>
 </center>
+
 <audio id="player" controls preload></audio>
 <audio id="preloader" muted preload></audio>
+
+<div id="sxc" class="popup"><!-- search container -->
+<div id="sx" class="pc"><!-- search -->
+<div id="sxi"><select id="sura_sx"></select><input id="sxq"></div>
+<div id="sxr"></div><!-- search results -->
+</div>
+<svg class="x" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><!-- search close-button -->
+<circle cx="5" cy="5" r="5" />
+<line x1="2" y1="2" x2="8" y2="8" stroke-width="1.25" />
+<line x1="8" y1="2" x2="2" y2="8" stroke-width="1.25" />
+</svg>
+</div>
+
 <<script>>
-<script>window.goatcounter={path:location.href,allow_frame:true}</script>
-<!-- privacy-friendly statistics, no tracking of personal data, no need for GDPR consent; see goatcounter.com -->
-<script data-goatcounter="https://ihkam.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

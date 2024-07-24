@@ -1,4 +1,3 @@
-'use strict'
 
 function decode_contact () {
   let xyz = Qid('xyz')

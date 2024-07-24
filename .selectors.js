@@ -1,17 +1,5 @@
-'use strict'
 
 // copied from my other project: Recite: https://github.com/noureddin/recite
-
-const el_allselectors = Qid("allselectors")
-const el_sura_bgn = Qid("sura_bgn")
-const el_aaya_bgn = Qid("aaya_bgn")
-const el_sura_end = Qid("sura_end")
-const el_aaya_end = Qid("aaya_end")
-const el_ok = Qid("ok")
-const el_header = Qid("header")
-const el_new = Qid("new")
-const el_repeat = Qid("repeat")
-const el_title = Qid("title")
 
 const spinner = make_svgelem('svg', { id: 'spinner-svg', viewBox: '-50 -50 100 100' })
 spinner.appendChild(make_svgelem('circle', { id: 'spinner', cx: 0, cy: 0, r: 35, fill: 'none', 'stroke-width': '10', 'stroke-dasharray': '40 30' }))
@@ -20,6 +8,7 @@ const sura_length = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,1
 const sura_name = ['الفاتحة','البقرة','آل عمران','النساء','المائدة','الأنعام','الأعراف','الأنفال','التوبة','يونس','هود','يوسف','الرعد','إبراهيم','الحجر','النحل','الإسراء','الكهف','مريم','طه','الأنبياء','الحج','المؤمنون','النور','الفرقان','الشعراء','النمل','القصص','العنكبوت','الروم','لقمان','السجدة','الأحزاب','سبأ','فاطر','يس','الصافات','ص','الزمر','غافر','فصلت','الشورى','الزخرف','الدخان','الجاثية','الأحقاف','محمد','الفتح','الحجرات','ق','الذاريات','الطور','النجم','القمر','الرحمن','الواقعة','الحديد','المجادلة','الحشر','الممتحنة','الصف','الجمعة','المنافقون','التغابن','الطلاق','التحريم','الملك','القلم','الحاقة','المعارج','نوح','الجن','المزمل','المدثر','القيامة','الإنسان','المرسلات','النبأ','النازعات','عبس','التكوير','الانفطار','المطففين','الانشقاق','البروج','الطارق','الأعلى','الغاشية','الفجر','البلد','الشمس','الليل','الضحى','الشرح','التين','العلق','القدر','البينة','الزلزلة','العاديات','القارعة','التكاثر','العصر','الهمزة','الفيل','قريش','الماعون','الكوثر','الكافرون','النصر','المسد','الإخلاص','الفلق','الناس',]
 function start_ (s) { return +sura_length.slice(0, s).reduce((a, b) => a + b, 0) }
 const sura_offset = range(115).map(start_)  // array mapping 0-based suar to how many ayat before it (eg 0 => 0, 1 => 7, 2 => 286+7)
+function sura_of (a) { return range(115).find((i) => sura_offset[i] >= a) }  // takes 1-based aaya ∈ [1-6236], returns its 1-based sura
 
 // tr num & fields()
 // TODO see: https://stackoverflow.com/q/10726638
@@ -131,6 +120,7 @@ function init_inputs () {
   // suar
   const sura_options = sura_name.map((t, i) => `<option value="${i}">${t}</option>`).join('')
   el_sura_bgn.innerHTML = el_sura_end.innerHTML = sura_options
+  el_sura_sx.innerHTML = '<option value="">كل السور</option>' + sura_options
   // aayaat
   el_aaya_bgn.innerHTML = el_aaya_end.innerHTML = make_aayaat(sura_length[0])
   el_aaya_end.value   = sura_length[0]
@@ -158,6 +148,13 @@ function init_inputs () {
       }
     }
   }
+  // searching
+  Qall('.search').forEach(el => el.onclick = ({ target }) => {
+    if (target.tagName === 'SPAN') { target = target.parentElement }
+    const el_aaya = target.previousElementSibling
+    const el_sura = el_aaya.previousElementSibling.previousElementSibling  // skip label
+    show_search(el_sura, el_aaya)
+  })
 }
 
 const hide_selectors = function () {

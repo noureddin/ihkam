@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use v5.16; use warnings; use autodie; use utf8;
 use open qw[ :encoding(UTF-8) :std ];
+use File::Temp qw[ tempfile ];
 
 sub slurp(_) { local $/; open my $f, '<', $_[0]; return scalar <$f> }
 sub slurp_stdin() { local $/; return scalar <> }
@@ -19,6 +20,7 @@ my $R = sprintf '[%s]', join ',', qw[
 my @scripts = qw[
   .utils.js
   .audio.js
+  .search.js
   .selectors.js
   .logic.js
   .lzma-d-min.js
@@ -26,6 +28,7 @@ my @scripts = qw[
   .ligilumi.js
   .main.js
   .confetti.min.js
+  .gc.js
 ];
 
 # confetti.min.js is from: https://github.com/mathusummut/confetti.js. Copyright (c) 2018 MathuSum Mut. MIT License
@@ -36,6 +39,8 @@ my @scripts = qw[
 ## BEGIN
 
 local $_ = slurp_stdin;
+
+my @ids = m/id="([^"]+)"/g;
 
 ## PROCESS & MINIFY
 
@@ -89,17 +94,36 @@ s/\s+/ /g;
 s/\A //;
 s/ \Z//;
 
+# style
 s{<<style>>}{
   sprintf '<style>%s</style>',
   execute qq[ $css .style.css ]
 }ge;
 
+# scripts
+my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
+
+my ($fh, $fpath) = tempfile;
+binmode $fh, ':encoding(UTF-8)';
+END { unlink $fpath if -e $fpath }
+
+for my $id (@ids) { print { $fh } "const el_$id = Qid('$id')\n" }
+for my $s (@scripts) { print { $fh } slurp $s }
+close $fh;
+
+my $fpath_quoted = "'" . ($fpath =~ s/'/'\\''/gr) . "'";
+
+my $script =
+  execute qq[ $js --compress top_retain='$R',passes=10 $m $fpath_quoted ];
+  # slurp $fpath;
+
+unlink $fpath;
+
 s{<<script>>}{
-  my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
-  sprintf '<script>"use strict";%s</script>',
-  execute qq[ cat @scripts | $js --compress top_retain='$R',passes=10 $m ]
+  sprintf '<script>"use strict";%s</script>', $script
 }sge;
 
+# static content
 s{<<party-popper>>}{
   sprintf '%s',
   slurp 'res/party-popper.svg'

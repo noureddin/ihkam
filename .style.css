@@ -4,11 +4,40 @@
   font-style: normal;
   font-weight: 400;
   src: url('AmiriQuran.woff2') format('woff2');
+  font-display: swap;
 }
 
 * { font-family: AmiriQuranWeb }
 
-html, body { background: #f0f0e8; color: #000 }
+/* some of the lightmode colors */
+:root {
+  --bg-rgb: 240, 240, 232;
+  --bg: rgb(240, 240, 232);
+  --fg: #000;
+  /* search */
+  --sxsa: rgba(var(--bg-rgb), 0.6);
+  --sxr:  #ffdde0;  /* each aya search results */
+  --sxrh: brightness(1.075);  /* hover */
+  --sxra-shadow: 0 0 0.25rem black,
+    inset 0  0.5rem 1rem #fff,
+    inset 0 -0.5rem 1rem #0004;
+}
+
+/* some of the darkmode colors */
+@media (prefers-color-scheme: dark) { :root {
+  --bg-rgb: 17, 0, 0;
+  --bg: rgb(17, 0, 0);
+  --fg: #f0f0f0;
+  /* search */
+  --sxsa: rgba(var(--bg-rgb), 0.75);
+  --sxr:  #400000;  /* each aya search results */
+  --sxrh: brightness(1.25);  /* hover */
+  --sxra-shadow: 0 0 0.2rem white,
+      inset 0  0.5rem 1rem #fff4,
+      inset 0 -0.5rem 1rem #000f;
+}}
+
+html, body { background: var(--bg); color: var(--fg) }
 input, button, select { font-size: inherit }
 body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
 @media (max-width: 320px) { body { font-size: 18px } }
@@ -70,7 +99,7 @@ center {
 /*
 */
 
-#body { min-height: calc(100vh - 5em) }  /* make #about stick to the footer if short page */
+#body { min-height: calc(100vh - 8em) }  /* make #about stick near the footer if short page */
 
 #about, #about * {
   font-family: serif;
@@ -116,7 +145,6 @@ a[href]:active { text-decoration: underline }
 }
 
 @media (prefers-color-scheme: dark) {
-html, body { color: #f0f0f0; background: #100 }
 select, input, button { filter: invert(1) hue-rotate(180deg) }
 #p { background: #202020 }
 .w { background: #302b2b }
@@ -150,16 +178,43 @@ label { display: inline-block }  /* don't break over lines */
 
 /* largely copied from Recite */
 
-#aaya_bgn, #aaya_end { font-family: KacstOne, serif; }
+#aaya_bgn, #aaya_end { font-family: KacstOne, AmiriQuranWeb, serif; }
 
 #aaya_bgn, #aaya_end { width: 3em; }
 
-@media (max-width: 312px) {
+/* search buttons in #selectors */
+.srcttl { font-family: inherit; color: inherit }
+.as > button { width: initial; padding: 0 1em }
+@media (max-width: 580px) { .as > button { padding: 0 0.25em } }
+@media (max-width: 440px) {
+.srcttl {  /* .sr-only -- hide visually but keep it for screenreaders */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+}
+
+.as {
+  display: block;
+  max-width: 20em;
+  min-width: 40%;
+  white-space: nowrap;
+  margin: 0.1em 0;
+}
+
+#sura_bgn, #sura_end { width: 35%; }
+
+@media (max-width: 339px) {
   .sura { display: none }
   .as > label:first-child { width: 1.6em }  /* من سورة and إلى سورة */
 }
 
-@media (max-width: 225px) {
+@media (max-width: 254px) {
   .aaya { display: none }
 }
 
@@ -200,6 +255,43 @@ button:disabled { cursor: not-allowed }
   z-index: 30;  /* higher than the help toggle label */
 }
 
+/* begin: common styling for popups: search */
+.popup {  /* the container */
+  display: none;
+  visibility: none;  opacity: 0;  transition: 1s opacity;
+  position: fixed;  top: 0;  right: 0;  width: 100%;  height: 100%;
+  overflow: scroll;
+  z-index: 50;  /* above everything */
+  background: var(--bg);
+}
+
+.pc {  /* popup content */
+  padding: 1em 0;
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+.pc > * {
+  font-size: 1.25em;
+}
+.pc > * * {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.x {  /* popup close-button */
+  opacity: 25%;  transition: 0.75s opacity;
+  position: fixed;  top: 0.5em;  left: 0.5em;
+  cursor: pointer;
+  width: 2em;
+  height: 2em;
+}
+
+.x:hover, .x:focus { opacity: 100% }
+
+.x line { stroke: var(--bg) }
+.x circle { fill: currentColor }
+
 #spinner { animation: spin 1.6s infinite linear; stroke: currentColor }
 @keyframes spin {
     0% { transform: rotate(0turn) }
@@ -211,3 +303,88 @@ button:disabled { cursor: not-allowed }
     vertical-align: bottom;
 }
 
+.aya { font-family: AmiriQuranWeb !important }
+
+/* end: common styling for popups: search */
+
+/* begin: search */
+/* see also: "search buttons in #selectors" */
+
+#sx * { font-family: KacstOne }
+/* except #sxr .aya */
+
+#sxi { width: 100%;
+  padding-left: 1em;  /* for the close button */
+  box-sizing: border-box;
+}
+#sx input { min-width: 8em }
+
+#sura_sx {
+  margin-left: 0.5em;
+  width: 5em;
+}
+
+#sxi { display: flex; flex: row }
+#sx input {
+  flex-grow: 100; /* all the space it can have */
+}
+
+@media (max-width: 428px) { #sura_sx { font-size: 90% } }
+@media (max-width: 389px) { /* make it two lines */
+  #sxi { display: block; padding: 0 }
+  #sura_sx { margin-bottom: 0.5em; font-size: 100% }
+  #sx input { width: 97% /* full row;  100% is too wide */ }
+}
+
+#sx center { margin: 2em 0 }  /* messages, not search results */
+#sx svg + center { margin-top: 0 }  /* if waiting after user input */
+
+#sxr .ac {
+  text-align: right;
+  background: var(--sxr);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow: hidden;  /* hide the excess part of .s_a */
+  position: relative;
+  transition: 0.25s filter;
+}
+#sxr .ac:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: -1rem 0;  /* to counter the padding of the parent */
+  box-shadow: var(--sxra-shadow);
+}
+
+#sxr .ac:hover, #sxr .ac:active {
+  filter: var(--sxrh);
+}
+
+.s_a {  /* sura-aaya title in #sxr */
+  background: var(--sxsa);
+  border-radius: 0 1rem 0 1rem;
+  padding: 3rem 1rem 0.5rem 0.75rem;
+  margin: 0 -1rem 0 1rem;
+}
+
+@media (max-width: 359px) {
+  .s_a {  /* make it full line */
+    display: block;
+    padding: 1rem;
+    margin: -1rem -1rem 0 -1rem;
+  }
+}
+
+#sxr .aya {
+  line-height: 2.75;
+}
+
+#sxr:hover, #sxr:focus {
+  cursor: pointer;
+}
+
+/* end: search */

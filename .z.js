@@ -1,4 +1,3 @@
-'use strict'
 
 // copied from my other project: Recite: https://github.com/noureddin/recite
 
@@ -31,6 +30,17 @@ const make_audio_list = (sura_bgn, aaya_bgn, sura_end, aaya_end) =>
 
 const MX = 6236
 var ayat = Array(MX)
+var imla  // plain imlaai, for searching
+
+function load_plain (callback) {
+  if (imla) { callback(); return }
+  fetch(`res/imlap.lzma`)
+    .then((res) => res.ok ? res.arrayBuffer() : null)
+    .then((buf) => {
+      imla = LZMA.decompress(new Uint8Array(buf)).split('\n').slice(0,-1)
+      callback()
+    })
+}
 
 // both imlaai and uthmani are split into nearly equal-size (in bytes) parts, without crossing suar.
 // each of these constants is the aaya that starts that part.
