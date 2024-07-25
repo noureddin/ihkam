@@ -31,7 +31,7 @@ select { padding: 0.25em }
   /* search */
   --sxsa: rgba(var(--bg-rgb), 0.6);
   --sxr:  #ffdde0;  /* each aya search results */
-  --sxrh: brightness(1.075);  /* hover */
+  --sxrh: brightness(1.1);  /* hover */
   --sxra-shadow: 0 0 0.25rem black,
     inset 0  0.5rem 1rem #fff,
     inset 0 -0.5rem 1rem #0004;
@@ -45,7 +45,7 @@ select { padding: 0.25em }
   /* search */
   --sxsa: rgba(var(--bg-rgb), 0.75);
   --sxr:  #400000;  /* each aya search results */
-  --sxrh: brightness(1.25);  /* hover */
+  --sxrh: brightness(1.2);  /* hover */
   --sxra-shadow: 0 0 0.2rem white,
       inset 0  0.5rem 1rem #fff4,
       inset 0 -0.5rem 1rem #000f;
@@ -361,13 +361,14 @@ button:disabled { cursor: not-allowed }
   width: 5em;
 }
 
-#sxi { display: flex; flex: row }
+#sxi { display: flex }
 #sx input {
   flex-grow: 100; /* all the space it can have */
+  margin: auto 0; height: 85%;
 }
 
 @media (max-width: 428px) { #sura_sx { font-size: 90% } }
-@media (max-width: 389px) { /* make it two lines */
+@media (max-width: 395px) { /* make it two lines */
   #sxi { display: block; padding: 0 }
   #sura_sx { margin-bottom: 0.5em; font-size: 100% }
   #sx input { width: 97% /* full row;  100% is too wide */ }
