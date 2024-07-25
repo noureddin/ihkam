@@ -11,6 +11,8 @@ const now_ms = () => (new Date()).getTime()  // unix epoch in ms
 
 const range = (n) => n ? [...Array(n).keys()] : []
 
+const mathrandom = Math.random  // to be minified
+
 // shorthand
 String.prototype.r = String.prototype.replace
 
@@ -42,7 +44,7 @@ function shuffle (arr) {
   // While there remain elements to shuffle...
   while (curIdx != 0) {
     // Pick a remaining element...
-    randIdx = Math.floor(Math.random() * curIdx)
+    randIdx = Math.floor(mathrandom() * curIdx)
     curIdx--
     // And swap it with the current element.
     [arr[curIdx], arr[randIdx]] = [arr[randIdx], arr[curIdx]]

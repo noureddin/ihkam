@@ -28,13 +28,17 @@ my @scripts = qw[
   .z.js
   .ligilumi.js
   .main.js
-  .confetti.min.js
+  .confetti.reduced.js
   .gc.js
 ];
 
-# confetti.min.js is from: https://github.com/mathusummut/confetti.js. Copyright (c) 2018 MathuSum Mut. MIT License
+# .confetti.min.js is from: https://github.com/mathusummut/confetti.js. Copyright (c) 2018 MathuSum Mut. MIT License
+# it's beautified (with ugly-js) to .confetti.unmin.js,
+# then I modified it (to .confetti.new.js) to remove support for older browsers I don't support anyway, and to use my shorthand functions,
+# then I removed all non-used parts of it, and applied further reductions, to produce the much smaller .confetti.reduced.js.
+# the difference in index.html's size is 1.7kB uncompressed, or 0.5kB when gzipped.
 
-# lzma-d-min.js from LZMA-JS by Nathan Rugg; v2.3.0; License: MIT.
+# .lzma-d-min.js from LZMA-JS by Nathan Rugg; v2.3.0; License: MIT.
 # https://github.com/LZMA-JS/LZMA-JS/blob/master/src/lzma-d-min.js
 
 ## BEGIN

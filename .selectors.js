@@ -194,7 +194,7 @@ function start_reciting () {
 function show_first () {
   const [st, en, title] = accept_selectors()
   // TODO: audio: click on the aayah to listen to it
-  // el_title.innerText = 'رتب ' + title
+  el_title.innerText = title
   load(st, en, () => preview([ '', ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ]))
 }
 
