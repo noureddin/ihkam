@@ -431,5 +431,11 @@ button:disabled { cursor: not-allowed }
 select, .bh { margin: 0.5em 0 }
 hr, #selectors { margin-top: 1em }
 
-.btn3 button { width: min(23vw, 8rem); margin: 0 0.67em }
-
+.b3 { display: flex; justify-content: center }
+.b3 button { width: 8em; margin: 0 0.5em }
+@media (max-width: 439px) {
+.b3 button { white-space: pre; min-width: 3.5em; padding: 0.5em 0 }
+}
+@media (max-width: 259px) {
+.b3 button { margin: 0 0.25em }
+}

@@ -94,10 +94,11 @@ s{(<button.*?)id="(.*?)"}{$1 data-goatcounter-click="$2" id="$2"}g;
 
 # minify html
 s/\s+</</g;  # note: this changes the behavior of the html; I'm relying on that
-s/&spc;/ /g;  # for the rarely needed space that would otherwise be removed by the previous rule
 s/\s+>/>/g;
-s/<!--.*?-->//g;
 s/\s+/ /g;
+s/&space;/ /g;  # for the rarely needed space that would otherwise be removed by the first rule
+s/&newline;/\n/g;  # for the even rarer newline
+s/<!--.*?-->//sg;
 s/\A //;
 s/ \Z//;
 

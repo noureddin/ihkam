@@ -26,7 +26,7 @@ function init_board () {
   el_repeat.title = 'اضغط لإعادة هذا الاختبار من البداية.'
   el_repeat.dataset.goatcounterClick = 'repeat'
   el_reshow.style.display = ''
-  el_header.classList.add('btn3')
+  el_hb.classList.add('b3')
   //
   el_endmsg.hidden = true
   el_p.innerHTML = ''
@@ -41,7 +41,7 @@ function preview (content) {
   el_repeat.title = 'ابدأ في ترتيب ' + repeat_title + '.'
   el_repeat.dataset.goatcounterClick = 'start'
   el_reshow.style.display = 'none'
-  el_header.classList.remove('btn3')
+  el_hb.classList.remove('b3')
   preview_put(content)
 }
 
