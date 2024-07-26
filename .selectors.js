@@ -157,8 +157,23 @@ function init_inputs () {
   })
 }
 
-const hide_selectors = function () {
+const hide_selectors = function (preview) {
   el_allselectors.hidden = true
+  //
+  if (preview) {  // 2 buttons only
+    el_repeat.innerText = 'ابدأ الاختبار'
+    el_repeat.title = 'ابدأ في ترتيب ' + repeat_title + '.'
+    el_repeat.dataset.goatcounterClick = 'start'
+    el_reshow.style.display = 'none'
+    el_hb.classList.remove('b3')
+  }
+  else {  // 3 buttons
+    el_repeat.innerText = 'إعادة'
+    el_repeat.title = 'اضغط لإعادة هذا الاختبار من البداية.'
+    el_repeat.dataset.goatcounterClick = 'repeat'
+    el_reshow.style.display = ''
+    el_hb.classList.add('b3')
+  }
   //
   el_header.hidden = false
 }
@@ -171,30 +186,27 @@ const show_selectors = function () {
   el_header.hidden = true
 }
 
-function accept_selectors (audio) {
+function accept_selectors (preview) {
   const [SA, AA] = [sura_bgn_val(), aaya_bgn_val()]
   const [SZ, AZ] = [sura_end_val(), aaya_end_val()]
   if (!valid_inputs(SA, AA, SZ, AZ)) { return }
   const st = sura_offset[SA] + AA
   const en = sura_offset[SZ] + AZ
   const title = 'عبارات ' + make_title(+SA+1, +AA, +SZ+1, +AZ)
-  hide_selectors()
+  el_title.innerText = (preview ? '' : 'رتب ') + title
+  hide_selectors(preview)
   x.innerHTML = ''; x.append(spinner); x.hidden = false
-  if (audio) { init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value) }
+  if (!preview) { init_audio(+SA+1, +AA, +SZ+1, +AZ, el_qaris.value) }
   return [st, en, title]
 }
 
 function start_reciting () {
-  const [st, en, title] = accept_selectors(/* audio: */ true)
-  const lvl = level_val()
-  el_title.innerText = 'رتب ' + title
-  load(st, en, () => recite([ 'اضغط بالترتيب على ' + title, ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ], lvl))
+  const [st, en, title] = accept_selectors()
+  load(st, en, () => recite([ 'اضغط بالترتيب على ' + title, ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ], level_val()))
 }
 
 function show_first () {
-  const [st, en, title] = accept_selectors()
-  // TODO: audio: click on the aayah to listen to it
-  el_title.innerText = title
+  const [st, en, title] = accept_selectors(/* preview :bool = */ 1)
   load(st, en, () => preview([ '', ayat.slice(st-1, en).map(a => a.replace(/#/, '\ufdfd\n')) ]))
 }
 

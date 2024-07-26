@@ -22,11 +22,6 @@ function clear_board () {
 
 function init_board () {
   if (int != null) { clearInterval(int); int = null }
-  el_repeat.innerText = 'إعادة'
-  el_repeat.title = 'اضغط لإعادة هذا الاختبار من البداية.'
-  el_repeat.dataset.goatcounterClick = 'repeat'
-  el_reshow.style.display = ''
-  el_hb.classList.add('b3')
   //
   el_endmsg.hidden = true
   el_p.innerHTML = ''
@@ -37,11 +32,7 @@ function init_board () {
 
 function preview (content) {
   init_board()
-  el_repeat.innerText = 'ابدأ الاختبار'
-  el_repeat.title = 'ابدأ في ترتيب ' + repeat_title + '.'
-  el_repeat.dataset.goatcounterClick = 'start'
-  el_reshow.style.display = 'none'
-  el_hb.classList.remove('b3')
+  hide_selectors(1)  // sets the header buttons
   preview_put(content)
 }
 
@@ -61,6 +52,7 @@ const levels = [
 function recite (content, lvl=2) {
 
   init_board()
+  hide_selectors()  // sets the header buttons
   recite_init(content)
 
   const { MAX, LIMIT, WAIT, SHORT_WAIT } = levels[lvl]
