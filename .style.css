@@ -196,7 +196,7 @@ label { display: inline-block }  /* don't break over lines */
 
 /* largely copied from Recite */
 
-#aaya_bgn, #aaya_end { width: 3em; }
+#aaya_bgn, #aaya_end { width: 4em; }
 
 /* search buttons in #selectors */
 .as > button { width: initial; padding: 0.25em 1em }
@@ -295,7 +295,7 @@ button:disabled { cursor: not-allowed }
 /* begin: common styling for popups: search */
 .popup {  /* the container */
   display: none;
-  visibility: none;  opacity: 0;  transition: 1s opacity;
+  visibility: hidden;  opacity: 0;  transition: 1s opacity;
   position: fixed;  top: 0;  right: 0;  width: 100%;  height: 100%;
   overflow: scroll;
   z-index: 50;  /* above everything */
@@ -318,14 +318,14 @@ button:disabled { cursor: not-allowed }
 }
 
 .x {  /* popup close-button */
-  opacity: 25%;  transition: 0.75s opacity;
+  opacity: 0.25;  transition: 0.75s opacity;
   position: fixed;  top: 0.5em;  left: 0.5em;
   cursor: pointer;
   width: 2em;
   height: 2em;
 }
 
-.x:hover, .x:focus { opacity: 100% }
+.x:hover, .x:focus { opacity: 1 }
 
 .x line { stroke: var(--bg) }
 .x circle { fill: currentColor }

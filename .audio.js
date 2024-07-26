@@ -1,9 +1,6 @@
 
 // copied from other project Recite: https://github.com/noureddin/recite
 
-const hide_el = (el) => { el.style.visibility = 'hidden';  el.style.opacity =   '0%' }
-const show_el = (el) => { el.style.visibility = 'visible'; el.style.opacity = '100%' }
-
 const audio = (function () {
   let list
   let base_url

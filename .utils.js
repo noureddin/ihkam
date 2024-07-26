@@ -16,6 +16,11 @@ const mathrandom = Math.random  // to be minified
 // shorthand
 String.prototype.r = String.prototype.replace
 
+// DOM-related
+
+const hide_el = (el) => { el.style.visibility = 'hidden';  el.style.opacity = '0' }
+const show_el = (el) => { el.style.visibility = 'visible'; el.style.opacity = '1' }
+
 function make_elem (tag, opts={}) {
   const el = document.createElement(tag)
   for (let opt in opts)
