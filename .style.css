@@ -17,7 +17,7 @@
   font-display: swap;
 }
 
-* { font-family: KacstOne, serif }
+* { font-family: KacstOne, serif; font-size: inherit /* primary for select/button/etc */ }
 #p, #p *, #x *, #endmsg { font-family: AmiriQuran }
 
 #allselectors > * { padding: 0.1em 0 }
@@ -245,6 +245,10 @@ button:disabled { cursor: not-allowed }
 
 #levels_option > label { margin: 0.25em }
 
+@media (max-width: 459px) {
+  #ll { display: block; margin: -0.75em; padding: 0 }
+}
+
 .bh button {
   margin: 1em;
   min-width: 7em;
@@ -253,12 +257,12 @@ button:disabled { cursor: not-allowed }
   padding: 0.5em;
 }
 
-@media (max-width: 427px) {  /* smaller, but still two buttons in a single row */
-.bh button { margin: 1em 0.5em; max-width: 50vw }
+@media (max-width: 415px) {  /* smaller, but still two buttons in a single row */
+.bh button { margin: 1em 0.5em; width: 5em }
 }
 
-@media (max-width: 410px) {  /* eventually will be two rows */
-.bh button { margin: 0.5em; max-width: 70vw }
+@media (max-width: 360px) {  /* eventually will be two rows */
+.bh button { margin: 0.5em; width: 10em; max-width: 70vw }
 .bh { margin-top: 1em }
 }
 
@@ -271,7 +275,7 @@ button:disabled { cursor: not-allowed }
 
 #qo > label {
   flex-shrink: 0;
-  margin: 0.5em 0;
+  margin: 0.9em 0;
 }
 
 #qo > select {
