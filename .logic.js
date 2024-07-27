@@ -125,7 +125,7 @@ function recite (content, lvl=2) {
     recite_done(content)
     confetti.start(1200, 50, 150)
     show_selectors()
-    setTimeout(() => el_ok.focus(), 500)
+    document.body.scrollTo({ top: 0 })
     el_p.classList.add('done')
   }
 
