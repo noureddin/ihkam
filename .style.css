@@ -90,6 +90,7 @@ body > center {
 #x > .w {
   display: inline-block;
   border: 1px solid gray;
+  margin: 0.25em;
 }
 
 .w {
