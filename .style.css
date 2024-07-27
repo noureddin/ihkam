@@ -73,7 +73,7 @@ td { padding: 0.25em }
 td:first-child { max-width: 35vw; text-align: center }  /* both are for narrow screens (< 500px) */
 
 body > center {
-  width: 50em;
+  width: 35em;
   max-width: 95vw;
   margin: 0 auto;
   box-sizing: border-box;
