@@ -37,16 +37,16 @@ function preview (content) {
 }
 
 // WAIT is the time before showing a hint, in millisecond
-// SHORT_WAIT is the time before hint of first phrase; should be 1/4 of WAIT
+// SHORT_WAIT is the time before hint of first phrase; should be 1/2 of WAIT
 // MAX is the maximum number of phrases to show on one screen
 // LIMIT is the maximum number of phrases (< MAX) before splitting into two,
 //   shuffled separately; should be odd and ~80% of MAX
 const levels = [
-  { MAX: 10, LIMIT:  7, WAIT: 20_000, SHORT_WAIT:  5_000 },
-  { MAX: 18, LIMIT: 13, WAIT: 40_000, SHORT_WAIT: 10_000 },
-  { MAX: 30, LIMIT: 25, WAIT: 60_000, SHORT_WAIT: 15_000 },
-  { MAX: 50, LIMIT: 39, WAIT: 90_000, SHORT_WAIT: 22_500 },
-  { MAX: 90, LIMIT: 71, WAIT:150_000, SHORT_WAIT: 37_500 },
+  { MAX: 10, LIMIT:  7, WAIT: 20_000, SHORT_WAIT: 10_000 },
+  { MAX: 18, LIMIT: 13, WAIT: 40_000, SHORT_WAIT: 20_000 },
+  { MAX: 30, LIMIT: 25, WAIT: 60_000, SHORT_WAIT: 30_000 },
+  { MAX: 50, LIMIT: 39, WAIT: 90_000, SHORT_WAIT: 45_500 },
+  { MAX: 90, LIMIT: 71, WAIT:150_000, SHORT_WAIT: 75_000 },
 ]
 
 function recite (content, lvl=2) {
