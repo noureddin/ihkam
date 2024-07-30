@@ -37,11 +37,11 @@ const audio = (function () {
   function show_or_hide_player () {
     if (invalid_state()) {
       hide_el(el_player)
-      document.body.style.marginTop = '1em'
+      B.style.marginTop = '1em'
     }
     else {
       show_el(el_player)
-      document.body.style.marginTop = '2em'
+      B.style.marginTop = '2em'
     }
   }
 

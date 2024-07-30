@@ -40,7 +40,7 @@ var innerheight = innerHeight
         let r = innerwidth, u = innerheight;
         let m = Qid("confetti-canvas");
         if (!m) {
-            document.body.prepend(m = make_elem('canvas', { id: 'confetti-canvas', style: 'display:block;z-index:99999;pointer-events:none;position:fixed;top:0', width: r, height: u}))
+            B.prepend(m = make_elem('canvas', { id: 'confetti-canvas', style: 'display:block;z-index:99999;pointer-events:none;position:fixed;top:0', width: r, height: u}))
             addEventListener('resize', () => { m.width = innerwidth, m.height = innerheight }, 1)
         }
         l = m.getContext("2d");

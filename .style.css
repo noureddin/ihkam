@@ -23,12 +23,40 @@
 #allselectors > * { padding: 0.1em 0 }
 select { padding: 0.25em }
 
-/* some of the lightmode colors */
-:root {
+/* lightmode colors are defined in body {} */
+/* darkmode colors, if different, are defined in body.dark {} */
+
+/* global */
+body {
   --bg-rgb: 240, 240, 232;
   --bg: rgb(240, 240, 232);
   --fg: #000;
-  /* search */
+}
+body.dark {
+  --bg-rgb: 17, 0, 0;
+  --bg: rgb(17, 0, 0);
+  --fg: #f0f0f0;
+}
+
+/* general */
+body {
+  --p: #e8e8e0;
+  --w: lightgray;  /* word background */
+  --x: #e0e0e0;  /* word background when hovered in #x */
+  --n: #808080;  /* fg of the "there are more" card at the end */
+  --N: #eaeaea;  /* bg of the "there are more" card at the end */
+  --B: gray;  /* borders of all cards in #x (incl. #inf) and the footer border */
+}
+body.dark {
+  --p: #202020;  /* drop field */
+  --w: #302b2b;  /* word background */
+  --x: #404050;  /* word background when hovered in #x */
+  --N: #252020;  /* bg of #inf, the "there are more" card at the end */
+}
+
+
+/* search */
+body {
   --sxsa: rgba(var(--bg-rgb), 0.6);
   --sxr:  #ffdde0;  /* each aya search results */
   --sxrh: brightness(1.1);  /* hover */
@@ -36,20 +64,69 @@ select { padding: 0.25em }
     inset 0  0.5rem 1rem #fff,
     inset 0 -0.5rem 1rem #0004;
 }
-
-/* some of the darkmode colors */
-@media (prefers-color-scheme: dark) { :root {
-  --bg-rgb: 17, 0, 0;
-  --bg: rgb(17, 0, 0);
-  --fg: #f0f0f0;
-  /* search */
+body.dark {
   --sxsa: rgba(var(--bg-rgb), 0.75);
   --sxr:  #400000;  /* each aya search results */
   --sxrh: brightness(1.2);  /* hover */
   --sxra-shadow: 0 0 0.2rem white,
       inset 0  0.5rem 1rem #fff4,
       inset 0 -0.5rem 1rem #000f;
-}}
+}
+
+/* visual feedback */
+body {
+  --mx: hsl(  0, 100%, 59%);
+  --m4: hsl( 25, 100%, 55%);
+  --m3: hsl( 42, 100%, 51%);
+  --m2: hsl( 60, 100%, 42%);
+  --m1: hsl( 80, 100%, 42%);
+  --m0: hsl(120, 100%, 34%);
+  --df: hsl(170, 100%, 33%);
+  --d1: hsl(180,  90%, 45%);
+  --d0: hsl(220,  95%, 60%);
+}
+body.dark {
+  --mx: hsl(  0, 100%, 44%);
+  --m4: hsl( 24, 100%, 40%);
+  --m3: hsl( 42, 100%, 38%);
+  --m2: hsl( 60, 100%, 32%);
+  --m1: hsl( 80, 100%, 29%);
+  --m0: hsl(120, 100%, 19%);
+  --df: hsl(170, 100%, 20%);
+  --d1: hsl(180, 100%, 27%);
+  --d0: hsl(220, 100%, 29%);
+}
+
+
+/* links (in the footer) */
+body {
+  --F: #444;  /* footer */
+  --L: #55f;  /* link */
+  --H: #33f;  /* hover */
+  --A: #11f;  /* active */
+}
+body.dark {
+  --F: #ddd;  /* footer */
+  --L: #99f;  /* link */
+  --H: #9bf;  /* hover */
+  --A: #9df;  /* active */
+}
+
+/* hints */
+body {
+  --M:   0 0 0.1em 0.1em #f008,
+   inset 0 0 0.4em 0.4em #f004;
+  --T:   0 0 0.1em 0.1em #04f8,
+   inset 0 0 0.4em 0.4em #04f4;
+}
+body.dark {
+  --M:   0 0 0.1em 0.1em #f44a,
+   inset 0 0 0.4em 0.4em #f44a;
+  --T:   0 0 0.1em 0.1em #48fa,
+   inset 0 0 0.4em 0.4em #48fa;
+}
+
+body.dark select, body.dark input, body.dark button { filter: invert(1) hue-rotate(180deg) }
 
 html, body { background: var(--bg); color: var(--fg) }
 body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
@@ -59,7 +136,7 @@ body { font-size: 20px; margin-top: 1em; transition: 0.5s margin-top }
   text-align: right;
   border: 1px solid gray;
   border-radius: 0.5em;
-  background: #e8e8e0;
+  background: var(--p);
   padding: 1em 0.5em;
   line-height: 3.1;
   white-space: pre-line;  /* to add '\n' if reciting both sura 8 & sura 9 */
@@ -89,19 +166,19 @@ body > center {
 
 #x > .w {
   display: inline-block;
-  border: 1px solid gray;
+  border: 1px solid var(--B);
   margin: 0.25em;
 }
 
 .w {
   border-radius: 0.5em;
-  background: lightgray;
+  background: var(--w);
   padding: 0.25em 0.5em;
   margin: 0.1em;
 }
 
 #x > .w:hover {
-  background: #e0e0e0;
+  background: var(--x);
   cursor: pointer;
 }
 
@@ -109,9 +186,9 @@ body > center {
 
 #inf {
   display: inline-block;
-  color: #808080;
-  background: #eaeaea;
-  border: 1px dashed gray;
+  color: var(--n);
+  background: var(--N);
+  border: 1px dashed var(--B);
   border-radius: 0.5em;
   padding: 0.25em 0.5em;
   margin: 0.1em;
@@ -129,69 +206,32 @@ body > center {
   margin-top: 2em;
   padding: 0.5em 1em 0.5em 1em;
   box-sizing: border-box;
-  color: #444;
-  border-top: 1px solid gray;
+  border-top: 1px solid var(--B);
+  color: var(--F);
 }
 
-a { text-decoration: none }
+a { color: var(--L); text-decoration: none }
 a[href]:hover,
 a[href]:focus,
 a[href]:active { text-decoration: underline }
 
-#about a { color: #55f }
-#about a:hover,
-#about a:focus { color: #33f }
-#about a:active { color: #11f }
+a:hover,
+a:focus { color: var(--H) }
+a:active { color: var(--A) }
 
-.mx { background-color: hsl(  0, 100%, 59%) }
-.m4 { background-color: hsl( 25, 100%, 55%) }
-.m3 { background-color: hsl( 42, 100%, 51%) }
-.m2 { background-color: hsl( 60, 100%, 42%) }
-.m1 { background-color: hsl( 80, 100%, 42%) }
-.m0 { background-color: hsl(120, 100%, 34%) }
-.df { background-color: hsl(170, 100%, 33%) }
-.d1 { background-color: hsl(180,  90%, 45%) }
-.d0 { background-color: hsl(220,  95%, 60%) }
+.mx { background-color: var(--mx) }
+.m4 { background-color: var(--m4) }
+.m3 { background-color: var(--m3) }
+.m2 { background-color: var(--m2) }
+.m1 { background-color: var(--m1) }
+.m0 { background-color: var(--m0) }
+.df { background-color: var(--df) }
+.d1 { background-color: var(--d1) }
+.d0 { background-color: var(--d0) }
 
 .mh, .th { transition: box-shadow 1s }
-.mh {
-  box-shadow: 0 0 0.1em 0.1em #f008,
-        inset 0 0 0.4em 0.4em #f004;
-}
-.th {
-  box-shadow: 0 0 0.1em 0.1em #04f8,
-        inset 0 0 0.4em 0.4em #04f4;
-}
-
-@media (prefers-color-scheme: dark) {
-select, input, button { filter: invert(1) hue-rotate(180deg) }
-#p { background: #202020 }
-.w { background: #302b2b }
-#x > .w:hover { background: #404050 }
-#inf { background: #252020 }
-.mx { background-color: hsl(  0, 100%, 44%) }
-.m4 { background-color: hsl( 24, 100%, 40%) }
-.m3 { background-color: hsl( 42, 100%, 38%) }
-.m2 { background-color: hsl( 60, 100%, 32%) }
-.m1 { background-color: hsl( 80, 100%, 29%) }
-.m0 { background-color: hsl(120, 100%, 19%) }
-.df { background-color: hsl(170, 100%, 20%) }
-.d1 { background-color: hsl(180, 100%, 27%) }
-.d0 { background-color: hsl(220, 100%, 29%) }
-#about { color: #ddd }
-#about a { color: #99f }
-#about a:hover,
-#about a:focus { color: #9bf }
-#about a:active { color: #9df }
-.mh {
-  box-shadow: 0 0 0.1em 0.1em #f44a,
-        inset 0 0 0.4em 0.4em #f44a;
-}
-.th {
-  box-shadow: 0 0 0.1em 0.1em #48fa,
-        inset 0 0 0.4em 0.4em #48fa;
-}
-}
+.mh { box-shadow: var(--M) }
+.th { box-shadow: var(--T) }
 
 label { display: inline-block }  /* don't break over lines */
 

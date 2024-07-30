@@ -111,7 +111,7 @@ s{<(?!svg|circle|line).*?>}{
 # style
 s{<<style>>}{
   sprintf '<style>%s</style>',
-  execute qq[ $css .style.css ]
+  execute qq[ $css -O2 -- .style.css ]
 }ge;
 
 # scripts

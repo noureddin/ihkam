@@ -264,3 +264,25 @@ el_new.onclick = () => {
   clear_board()
 }
 
+function change_dark () {
+  // if the user changed the dark selector, remember their preference
+  if (el_dark.checked) {
+    B.classList.add('dark')
+    S.setItem('dark', 'Y')
+  }
+  else {
+    B.classList.remove('dark')
+    S.setItem('dark', 'N')
+  }
+}
+
+function init_dark () {
+  const dark =
+  S.getItem('dark') == null  // no overriding; follow system preference initially
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : S.getItem('dark') === 'Y'  // the user changed the dark selector
+  B.classList.toggle('dark', dark)
+  el_dark.checked = dark
+}
+
+el_dark.oninput = change_dark

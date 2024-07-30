@@ -16,6 +16,10 @@ const mathrandom = Math.random  // to be minified
 // shorthand
 String.prototype.r = String.prototype.replace
 
+const B = document.body
+const S = localStorage
+
+
 // DOM-related
 
 const hide_el = (el) => { el.style.visibility = 'hidden';  el.style.opacity = '0' }

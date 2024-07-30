@@ -71,7 +71,7 @@ var mathrandom = Math.random
     function s(t, n, o) {
         var r = innerWidth, u = innerHeight;
         var m = Qid("confetti-canvas");
-        null === m ? (document.body.prepend(m = make_elem('canvas', { id: 'confetti-canvas', style: 'display:block;z-index:999999;pointer-events:none;position:fixed;top:0', width: r, height: u})), addEventListener('resize', function() { m.width = innerWidth, m.height = innerHeight }, true), l = m.getContext('2d')
+        null === m ? (B.prepend(m = make_elem('canvas', { id: 'confetti-canvas', style: 'display:block;z-index:999999;pointer-events:none;position:fixed;top:0', width: r, height: u})), addEventListener('resize', function() { m.width = innerWidth, m.height = innerHeight }, true), l = m.getContext('2d')
         ) : null === l && (l = m.getContext("2d"));
         var s = confetti.maxCount;
         if (n) if (o) if (n == o) s = a.length + o; else {
