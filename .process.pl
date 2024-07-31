@@ -11,7 +11,7 @@ sub execute { my $ret = scalar `$_[0]`; chomp $ret; return $ret }
 my $css = 'deno run --quiet --allow-read --allow-env=HTTP_PROXY,http_proxy npm:clean-css-cli';
 my $js  = 'deno run --quiet --allow-read --allow-env=UGLIFY_BUG_REPORT npm:uglify-js';
 
-my $mangle = 1;  # set to 0 for debug, to 1 for prod
+my $js_debug = 0;  # set to 1 for debug, to 0 for prod
 
 # global fns defined in JS that are called from HTML
 my $R = sprintf '[%s]', join ',', qw[
@@ -115,8 +115,6 @@ s{<<style>>}{
 }ge;
 
 # scripts
-my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
-
 my ($fh, $fpath) = tempfile;
 binmode $fh, ':encoding(UTF-8)';
 END { unlink $fpath if -e $fpath }
@@ -127,9 +125,9 @@ close $fh;
 
 my $fpath_quoted = "'" . ($fpath =~ s/'/'\\''/gr) . "'";
 
-my $script =
-  execute qq[ $js --compress top_retain='$R',passes=10 $m $fpath_quoted ];
-  # slurp $fpath;
+my $script = $js_debug
+  ? slurp $fpath
+  : execute qq[ $js --compress top_retain='$R',passes=10 --mangle toplevel,reserved='$R' $fpath_quoted ];
 
 unlink $fpath;
 

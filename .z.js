@@ -94,10 +94,11 @@ function load (st, en, callback) {
     fetch(`res/u${part}.lzma`)
       .then((res) => res.ok ? res.arrayBuffer() : null)
       .then((buf) => {
+        if (ayat[start]) { cb(); return }  // happens when searching
         ayat = [
           ...ayat.slice(0, start && start-1),  // zero if zero (which gives an empty array), subtract one otherwise
           ...LZMA.decompress(new Uint8Array(buf)).split('\n').slice(0,-1),
-          ...ayat.slice(end),
+          ...ayat.slice(end-1),
         ]
         cb()
       })
