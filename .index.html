@@ -7,6 +7,8 @@
 <<style>>
 </head>
 <body>
+<!-- follow system prefs, until the page loads and the scripts execute and the user-overriding (if any) is retrieved. see init_dark() -->
+<script>document.body.className=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':''</script>
 <center>
 <div id="body">
 <div id="allselectors">
@@ -17,21 +19,21 @@
   <select id="sura_bgn"></select>&thinsp;
   <label for="aaya_bgn"><span class="aaya">الآية:&thinsp;</span></label>
   <select id="aaya_bgn"></select>&thinsp;
-  <button class="search">🔍<span class="srcttl"> ابحث</span></button>
+  <button class="search">🔍<span class="srcttl">&space;ابحث</span></button>
 </div>
 <div class="as">
   <label for="sura_end">إلى<span class="sura">&nbsp;سورة</span>:&thinsp;</label>
   <select id="sura_end"></select>&thinsp;
   <label for="aaya_end"><span class="aaya">الآية:&thinsp;</span></label>
   <select id="aaya_end"></select>&thinsp;
-  <button class="search">🔍<span class="srcttl"> ابحث</span></button>
+  <button class="search">🔍<span class="srcttl">&space;ابحث</span></button>
 </div>
 <div id="levels_option" class="option">
-  <label><input name=lvl id="l0" type=radio>&thinsp;مبتدئ</label>&ensp;
-  <label><input name=lvl id="l1" type=radio>&thinsp;سهل</label>&ensp;
-  <label><input name=lvl id="l2" type=radio checked>&thinsp;وسط</label><span id="ll">&ensp;</span>
-  <label><input name=lvl id="l3" type=radio>&thinsp;صعب</label>&ensp;
-  <label><input name=lvl id="l4" type=radio>&thinsp;مستحيل</label>
+  <label><input name="lvl" id="l0" type="radio">&thinsp;مبتدئ</label>&ensp;
+  <label><input name="lvl" id="l1" type="radio">&thinsp;سهل</label>&ensp;
+  <label><input name="lvl" id="l2" type="radio" checked>&thinsp;وسط</label><span id="ll">&ensp;</span>
+  <label><input name="lvl" id="l3" type="radio">&thinsp;صعب</label>&ensp;
+  <label><input name="lvl" id="l4" type="radio">&thinsp;مستحيل</label>
 </div>
   <div class="bh">
     <button title="اختر الآيات التي تريد مراجعتها، ثم اضغط على هذا الزر لبدء الاختبار بغير رؤيتها أولا." id="ok">ابدأ الاختبار</button>
